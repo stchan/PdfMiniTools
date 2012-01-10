@@ -12,7 +12,7 @@ namespace PdfMiniToolsCore
     {
         #region Constants
 
-        private static const String exceptionArgumentNullOrEmptyString = "Parameter cannot be null, an empty string, or all whitespace.";
+        private const String exceptionArgumentNullOrEmptyString = "Parameter cannot be null, an empty string, or all whitespace.";
 
         #endregion
 
