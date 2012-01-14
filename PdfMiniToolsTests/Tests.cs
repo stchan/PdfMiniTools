@@ -21,7 +21,7 @@ namespace PdfMiniToolsTests
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             Dictionary<String, String> basicPropertiesDictionary = coreTest.RetrieveBasicProperties(@"..\..\Heart_of_Darkness_NT.pdf");
-            Assert.IsTrue(basicPropertiesDictionary.Count == 5);
+            Assert.IsTrue(basicPropertiesDictionary.Count == 4);
             Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Page Count"));
             Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Encrypted"));
             Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Pdf Version"));
