@@ -28,5 +28,13 @@ namespace PdfMiniToolsTests
             Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Rebuilt"));
 
         }
+
+        [Test]
+        public void TestRetrieveInfo()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            Dictionary<String, String> pdfInfo = coreTest.RetrieveInfo(@"..\..\Heart_of_Darkness_NT.pdf");
+            Assert.IsTrue(pdfInfo.Count > 0);
+        }
     }
 }
