@@ -38,5 +38,26 @@ namespace PdfMiniToolsCore
             }
             return basicProperties;
         }
+
+        public Dictionary<String, String> RetrieveInfo(String filename)
+        {
+            Dictionary<String, String> pdfInfo = new Dictionary<string, string>();
+            if (!String.IsNullOrEmpty(filename) && !String.IsNullOrWhiteSpace(filename))
+            {
+                iTextSharpPDF.PdfReader documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
+                foreach (object infoKey in documentReader.Info.Keys)
+                {
+                    if ((infoKey as String) != null)
+                    {
+                        pdfInfo.Add(infoKey as String, documentReader.Info[infoKey as String] as String);
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException("filename", exceptionArgumentNullOrEmptyString);
+            }
+            return pdfInfo;
+        }
     }
 }
