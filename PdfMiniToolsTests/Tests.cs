@@ -15,6 +15,37 @@ namespace PdfMiniToolsTests
         {}
         #endregion
 
+        [Test]
+        public void TestParsePDFDateTime()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            // Valid pdf datetime string
+            Assert.IsNotNull(coreTest.ParsePDFDateTime("D:20020920162615+10'00'"));
+            // Valid pdf datetime string
+            Assert.IsNotNull(coreTest.ParsePDFDateTime("D:19991120202635-10'00'"));
+            // Too short
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10"));
+            // Too long
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10'00'59"));
+            // Invalid month
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20021920162615+10'00'"));
+            // Invalid day
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020900162615+10'00'"));
+            // Invalid hour
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920292615+10'00'"));
+            // Invalid minute
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920166015+10'00'"));
+            // Invalid second
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162678+10'00'"));
+            // Invalid timezone indicator
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615U10'00'"));
+            // Invalid offset hours
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+29'00'"));
+            // Invalid offset minutes
+            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10'63'"));
+            // Null argument
+            Assert.Throws<ArgumentNullException>(delegate { coreTest.ParsePDFDateTime(null); });
+        }
 
         [Test]
         public void TestRetrieveBasicProperties()
