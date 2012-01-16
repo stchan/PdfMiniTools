@@ -16,6 +16,15 @@ namespace PdfMiniToolsTests
         #endregion
 
         [Test]
+        public void TestConcatenatePDFFiles()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            String[] inputFiles = new String[] { @"..\..\Heart_of_Darkness_NT.pdf", @"..\..\Beginning GIMP.pdf" };
+            String outputFile = @"..\..\TESTCONCAT.pdf";
+            coreTest.ConcatenatePDFFiles(inputFiles, outputFile);
+        }
+
+        [Test]
         public void TestParsePDFDateTime()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -67,5 +76,14 @@ namespace PdfMiniToolsTests
             Dictionary<String, String> pdfInfo = coreTest.RetrieveInfo(@"..\..\Heart_of_Darkness_NT.pdf");
             Assert.IsTrue(pdfInfo.Count > 0);
         }
+
+        [Test]
+        public void TestRetrieveCatalog()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            Dictionary<String, String> pdfCatalog = coreTest.RetrieveCatalog(@"..\..\Heart_of_Darkness_NT.pdf");
+            Assert.IsTrue(pdfCatalog.Count > 0);
+        }
+
     }
 }
