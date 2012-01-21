@@ -29,31 +29,31 @@ namespace PdfMiniToolsTests
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             // Valid pdf datetime string
-            Assert.IsNotNull(coreTest.ParsePDFDateTime("D:20020920162615+10'00'"));
+            Assert.IsNotNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'"));
             // Valid pdf datetime string
-            Assert.IsNotNull(coreTest.ParsePDFDateTime("D:19991120202635-10'00'"));
+            Assert.IsNotNull(coreTest.TryParsePDFDateTime("D:19991120202635-10'00'"));
             // Too short
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10"));
             // Too long
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10'00'59"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'59"));
             // Invalid month
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20021920162615+10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20021920162615+10'00'"));
             // Invalid day
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020900162615+10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020900162615+10'00'"));
             // Invalid hour
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920292615+10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920292615+10'00'"));
             // Invalid minute
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920166015+10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920166015+10'00'"));
             // Invalid second
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162678+10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162678+10'00'"));
             // Invalid timezone indicator
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615U10'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615U10'00'"));
             // Invalid offset hours
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+29'00'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+29'00'"));
             // Invalid offset minutes
-            Assert.IsNull(coreTest.ParsePDFDateTime("D:20020920162615+10'63'"));
+            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'63'"));
             // Null argument
-            Assert.Throws<ArgumentNullException>(delegate { coreTest.ParsePDFDateTime(null); });
+            Assert.Throws<ArgumentNullException>(delegate { coreTest.TryParsePDFDateTime(null); });
         }
 
         [Test]
@@ -78,11 +78,16 @@ namespace PdfMiniToolsTests
         }
 
         [Test]
-        public void TestRetrieveCatalog()
+        public void TestSplitPDF()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
-            Dictionary<String, String> pdfCatalog = coreTest.RetrieveCatalog(@"..\..\Heart_of_Darkness_NT.pdf");
-            Assert.IsTrue(pdfCatalog.Count > 0);
+            String testFile = @"..\..\Heart_of_Darkness_NT.pdf";
+            var pageSplits = new SortedList<int, String>();
+            pageSplits.Add(1, @"..\..\Heart_of_Darkness_01.pdf");
+            pageSplits.Add(11, @"..\..\Heart_of_Darkness_02.pdf");
+            pageSplits.Add(86, @"..\..\Heart_of_Darkness_03.pdf");
+            pageSplits.Add(252, @"..\..\Heart_of_Darkness_04.pdf");
+            coreTest.SplitPDF(testFile, pageSplits);
         }
 
     }

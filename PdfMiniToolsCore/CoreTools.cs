@@ -28,6 +28,7 @@ namespace PdfMiniToolsCore
         /// Converts a PDF date format string to local time, as a DateTimeOffset.
         /// Matching is strict - all fields are required, unlike in the official
         /// definition in which everything after the year is optional.
+        /// 
         /// Expected format is:
         /// D:YYYYMMDDHHmmSSOHH'mm'
         /// 
@@ -39,7 +40,7 @@ namespace PdfMiniToolsCore
         /// A DateTimeOffSet? object containing the converted date/time/offset (local time), or
         /// null if the conversion was not possible or failed.
         /// </returns>
-        public DateTimeOffset? ParsePDFDateTime(String pdfDateTime)
+        public DateTimeOffset? TryParsePDFDateTime(String pdfDateTime)
         {
             
             DateTimeOffset? parsedDate = null;
@@ -94,7 +95,7 @@ namespace PdfMiniToolsCore
             Dictionary<String, String> basicProperties = new Dictionary<string, string>();
             if (!String.IsNullOrEmpty(filename) && !String.IsNullOrWhiteSpace(filename))
             {
-                iTextSharpPDF.PdfReader documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
+                var documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
                 basicProperties.Add("Page Count", documentReader.NumberOfPages.ToString());
                 basicProperties.Add("Encrypted", documentReader.IsEncrypted().ToString());
                 basicProperties.Add("Pdf Version", documentReader.PdfVersion.ToString());
@@ -108,43 +109,6 @@ namespace PdfMiniToolsCore
             return basicProperties;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public Dictionary<String, String> RetrieveCatalog(String filename)
-        {
-            Dictionary<String, String> pdfCatalog = new Dictionary<string, string>();
-            if (!String.IsNullOrEmpty(filename) && !String.IsNullOrWhiteSpace(filename))
-            {
-                iTextSharpPDF.PdfReader documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
-                IDictionaryEnumerator pdfCatalogEnumerator = documentReader.Catalog.GetEnumerator();
-                while (pdfCatalogEnumerator.MoveNext())
-                {
-                    String pdfCatalogValue = null;
-                    DateTimeOffset? pdfCatalogDate;
-                    if (pdfCatalogEnumerator.Value != null)
-                    {
-                        pdfCatalogDate = ParsePDFDateTime(pdfCatalogEnumerator.Value.ToString());
-                        if (pdfCatalogDate.HasValue)
-                        {
-                            pdfCatalogValue = String.Format("{0:F}", ((DateTimeOffset)pdfCatalogDate).DateTime);
-                        }
-                        else
-                        {
-                            pdfCatalogValue = pdfCatalogEnumerator.Value.ToString();
-                        }
-                    }
-                    pdfCatalog.Add(pdfCatalogEnumerator.Key as String, pdfCatalogValue);
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException("filename", exceptionArgumentNullOrEmptyString);
-            }
-            return pdfCatalog;
-        }
 
         /// <summary>
         /// 
@@ -156,7 +120,7 @@ namespace PdfMiniToolsCore
             Dictionary<String, String> pdfInfo = new Dictionary<string, string>();
             if (!String.IsNullOrEmpty(filename) && !String.IsNullOrWhiteSpace(filename))
             {
-                iTextSharpPDF.PdfReader documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
+                var documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
                 IDictionaryEnumerator pdfInfoEnumerator = documentReader.Info.GetEnumerator();
                 while (pdfInfoEnumerator.MoveNext())
                 {
@@ -164,7 +128,7 @@ namespace PdfMiniToolsCore
                     DateTimeOffset? pdfInfoDate;
                     if (pdfInfoEnumerator.Value != null)
                     {
-                        pdfInfoDate = ParsePDFDateTime(pdfInfoEnumerator.Value.ToString());
+                        pdfInfoDate = TryParsePDFDateTime(pdfInfoEnumerator.Value.ToString());
                         if (pdfInfoDate.HasValue)
                         {
                             pdfInfoValue = String.Format("{0:F}", ((DateTimeOffset)pdfInfoDate).DateTime);
@@ -189,7 +153,7 @@ namespace PdfMiniToolsCore
         #region PDF File operation methods
 
         /// <summary>
-        /// 
+        /// Concatenates two or more PDF files into one
         /// </summary>
         /// <param name="inputFiles">A string array containing the names of the pdf files to concatenate</param>
         /// <param name="outputFile">Name of the concatenated file.</param>
@@ -199,14 +163,14 @@ namespace PdfMiniToolsCore
             {
                 if (!String.IsNullOrEmpty(outputFile) && !String.IsNullOrWhiteSpace(outputFile))
                 {
-                    iTextSharpText.Document concatDocument = new iTextSharpText.Document();
-                    iTextSharpPDF.PdfCopy outputCopy = new iTextSharpPDF.PdfCopy(concatDocument, new FileStream(outputFile, FileMode.Create, FileAccess.ReadWrite));
+                    var concatDocument = new iTextSharpText.Document();
+                    var outputCopy = new iTextSharpPDF.PdfCopy(concatDocument, new FileStream(outputFile, FileMode.Create, FileAccess.ReadWrite));
                     concatDocument.Open();
                     try
                     {
                         for (int loop = 0; loop <= inputFiles.GetUpperBound(0); loop++)
                         {
-                            iTextSharpPDF.PdfReader inputDocument = new iTextSharpPDF.PdfReader(inputFiles[loop]);
+                            var inputDocument = new iTextSharpPDF.PdfReader(inputFiles[loop]);
                             for (int pageLoop = 1; pageLoop <= inputDocument.NumberOfPages; pageLoop++)
                             {
                                 concatDocument.SetPageSize(inputDocument.GetPageSizeWithRotation(pageLoop));
@@ -242,6 +206,101 @@ namespace PdfMiniToolsCore
             else
             {
                 throw new ArgumentNullException("inputFiles", exceptionArgumentNullOrEmptyString);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputFile">The PDF file to split</param>
+        /// <param name="splitStartPages"></param>
+        public void SplitPDF(String inputFile, SortedList<int, String> splitStartPages)
+        {
+            if (!String.IsNullOrEmpty(inputFile) &&
+                !String.IsNullOrWhiteSpace(inputFile) &&
+                splitStartPages != null &&
+                splitStartPages.Count >= 2)
+            {
+                var inputDocument = new iTextSharpPDF.PdfReader(inputFile);
+                // First split must begin with page 1
+                // Last split must not be higher than last page
+                if (splitStartPages.Keys[0] == 1 &&
+                    splitStartPages.Keys[splitStartPages.Count - 1] <= inputDocument.NumberOfPages)
+                {
+                    int currentPage = 1;
+                    int firstPageOfSplit;
+                    int lastPageOfSplit;
+                    try
+                    {
+                        for (int splitPoint = 0; splitPoint < (splitStartPages.Count - 1); splitPoint++)
+                        {
+                            firstPageOfSplit = currentPage;
+                            if (splitPoint < (splitStartPages.Count - 1))
+                            {
+                                lastPageOfSplit = splitStartPages.Keys[splitPoint + 1] - 1;
+                            }
+                            else
+                            {
+                                lastPageOfSplit = inputDocument.NumberOfPages;
+                            }
+                            iTextSharpText.Document splitDocument = null;
+                            iTextSharpPDF.PdfCopy splitOutputFile = null;
+                            try
+                            {
+                                splitDocument = new iTextSharpText.Document();
+                                splitOutputFile = new iTextSharpPDF.PdfCopy(splitDocument, new FileStream(splitStartPages.Values[splitPoint], FileMode.Create, FileAccess.ReadWrite));
+                                splitDocument.Open();
+                                for (int outputPage = firstPageOfSplit; outputPage <= lastPageOfSplit; outputPage++)
+                                {
+                                    splitDocument.SetPageSize(inputDocument.GetPageSizeWithRotation(currentPage));
+                                    splitOutputFile.AddPage(splitOutputFile.GetImportedPage(inputDocument, currentPage));
+                                    currentPage++;
+                                }
+                            }
+                            finally
+                            {
+                                if (splitDocument != null && splitDocument.IsOpen()) splitDocument.Close();
+                                if (splitOutputFile != null)
+                                {
+                                    splitOutputFile.Close();
+                                    splitOutputFile.FreeReader(inputDocument);
+                                }
+                                splitDocument = null;
+                                splitOutputFile = null;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // Cleanup any files that may have
+                        // been written
+                        foreach (KeyValuePair<int, String> split in splitStartPages)
+                        {
+                            try
+                            {
+                                File.Delete(split.Value);
+                            }
+                            catch { }
+                        }
+                        throw;
+                    }
+                    finally
+                    {
+                        if (inputDocument != null) inputDocument.Close();
+                    }
+
+                }
+                else
+                {
+                    if (splitStartPages.Keys[splitStartPages.Count - 1] > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("splitStartPages", String.Format("Final key value (page number) must be less than the number of pages ({0}). Passed value is {1}.", inputDocument.NumberOfPages, splitStartPages.Keys[splitStartPages.Count - 1]));
+                    throw new ArgumentOutOfRangeException("splitStartPages", "First key value (page number) must be 1.");
+                }
+            }
+            else
+            {
+                if (inputFile == null) throw new ArgumentNullException("inputFile", exceptionArgumentNullOrEmptyString);
+                if (splitStartPages == null) throw new ArgumentNullException("splitStartPages", exceptionArgumentNullOrEmptyString);
+                throw new ArgumentOutOfRangeException("splitStartPages", "Must contain at least two KeyValue pairs.");
             }
         }
 
