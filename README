@@ -1,2 +1,8 @@
-PDF icon from:
-http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png
+Version 4.0 of the .Net framework is required.
+
+Visual C# 2010 Express (with SP1), NUnit 2.5, Warsetup 3.13, and Wix 3.5 were used
+to build, and test the project.
+
+The following third party components are used/included:
+- CommandLine Parser library (v1.8 stable) - http://commandline.codeplex.com/
+- PDF icon from open icon library (LGPL ) - http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png
