@@ -232,7 +232,7 @@ namespace PdfMiniToolsCore
                     int lastPageOfSplit;
                     try
                     {
-                        for (int splitPoint = 0; splitPoint < (splitStartPages.Count - 1); splitPoint++)
+                        for (int splitPoint = 0; splitPoint <= (splitStartPages.Count - 1); splitPoint++)
                         {
                             firstPageOfSplit = currentPage;
                             if (splitPoint < (splitStartPages.Count - 1))

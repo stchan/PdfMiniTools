@@ -86,7 +86,7 @@ namespace PdfMiniToolsTests
             pageSplits.Add(1, @"..\..\Heart_of_Darkness_01.pdf");
             pageSplits.Add(11, @"..\..\Heart_of_Darkness_02.pdf");
             pageSplits.Add(86, @"..\..\Heart_of_Darkness_03.pdf");
-            pageSplits.Add(252, @"..\..\Heart_of_Darkness_04.pdf");
+            pageSplits.Add(111, @"..\..\Heart_of_Darkness_04.pdf");
             coreTest.SplitPDF(testFile, pageSplits);
         }
 
