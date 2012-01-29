@@ -24,6 +24,12 @@ namespace PdfMiniToolsTests
             coreTest.ConcatenatePDFFiles(inputFiles, outputFile);
         }
 
+        public void TestExtractPages()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+
+        }
+
         [Test]
         public void TestParsePDFDateTime()
         {

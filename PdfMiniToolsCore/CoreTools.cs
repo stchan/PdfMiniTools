@@ -20,12 +20,23 @@ namespace PdfMiniToolsCore
         #region Constants
 
         private const String exceptionArgumentNullOrEmptyString = "Parameter cannot be null, an empty string, or all whitespace.";
+        private const String exceptionArgumentZeroOrNegative = "Parameter cannot be zero or negative.";
+        private const String exceptionParameterCannotBeLessThan = "{0} cannot be less than {1}";
+        private const String exceptionParameterCannotBeGreatThan = "{0} cannot be great than {1}";
 
         #endregion
 
         #region PDF Information methods
         /// <summary>
         /// Converts a PDF date format string to local time, as a DateTimeOffset.
+        /// </summary>
+        /// <param name="pdfDateTime">The PDF date string</param>
+        /// <returns>
+        /// A DateTimeOffSet? object containing the converted date/time/offset (local time), or
+        /// null if the conversion was not possible or failed.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>
         /// Matching is strict - all fields are required, unlike in the official
         /// definition in which everything after the year is optional.
         /// 
@@ -34,12 +45,7 @@ namespace PdfMiniToolsCore
         /// 
         /// The D: prefix, and single quotes are expected literals.
         /// O is the timezone indicator, and can be +,-, or Z.
-        /// </summary>
-        /// <param name="pdfDateTime">The PDF date string</param>
-        /// <returns>
-        /// A DateTimeOffSet? object containing the converted date/time/offset (local time), or
-        /// null if the conversion was not possible or failed.
-        /// </returns>
+        /// </remarks>
         public DateTimeOffset? TryParsePDFDateTime(String pdfDateTime)
         {
             
@@ -89,7 +95,9 @@ namespace PdfMiniToolsCore
         /// 
         /// </summary>
         /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Dictionary<String, String>"/> object</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks></remarks>
         public Dictionary<String, String> RetrieveBasicProperties(String filename)
         {
             Dictionary<String, String> basicProperties = new Dictionary<string, string>();
@@ -153,7 +161,7 @@ namespace PdfMiniToolsCore
         #region PDF File operation methods
 
         /// <summary>
-        /// Concatenates two or more PDF files into one
+        /// Concatenates two or more PDF files into one file.
         /// </summary>
         /// <param name="inputFiles">A string array containing the names of the pdf files to concatenate</param>
         /// <param name="outputFile">Name of the concatenated file.</param>
@@ -207,6 +215,87 @@ namespace PdfMiniToolsCore
             {
                 throw new ArgumentNullException("inputFiles", exceptionArgumentNullOrEmptyString);
             }
+        }
+
+
+        /// <summary>
+        /// Extracts a range of pages from a PDF file,
+        /// and writes them to a new file.
+        /// </summary>
+        /// <param name="inputFile">The PDF to extract pages from.</param>
+        /// <param name="outputFile">The new file to write the extracted pages to.</param>
+        /// <param name="firstPage">The first page to extract.</param>
+        /// <param name="lastPage">The last page to extract.</param>
+        public void ExtractPDFPages(String inputFile, String outputFile, int firstPage, int lastPage)
+        {
+            if (!String.IsNullOrEmpty(inputFile) && !String.IsNullOrWhiteSpace(inputFile) &&
+                !String.IsNullOrEmpty(outputFile) && !String.IsNullOrWhiteSpace(outputFile) &&
+                firstPage > 0 && lastPage > 0 &&
+                lastPage >= firstPage)
+            {
+                var inputDocument = new iTextSharpPDF.PdfReader(inputFile);
+                try
+                {
+                    // Pages specified must not be outside
+                    if (firstPage <= inputDocument.NumberOfPages &&
+                        lastPage <= inputDocument.NumberOfPages)
+                    {
+                        iTextSharpText.Document extractOutputDocument = null;
+                        iTextSharpPDF.PdfCopy extractOutputFile = null;
+                        try
+                        {
+                            extractOutputDocument = new iTextSharpText.Document();
+                            extractOutputFile = new iTextSharpPDF.PdfCopy(extractOutputDocument, new FileStream(outputFile, FileMode.Create, FileAccess.ReadWrite));
+                            extractOutputDocument.Open();
+                            for (int loop = firstPage; loop <= lastPage; loop++)
+                            {
+                                extractOutputDocument.SetPageSize(inputDocument.GetPageSizeWithRotation(loop));
+                                extractOutputFile.AddPage(extractOutputFile.GetImportedPage(inputDocument, loop));
+                            }
+                        }
+                        finally
+                        {
+                            if (extractOutputDocument != null && extractOutputDocument.IsOpen()) extractOutputDocument.Close();
+                            if (extractOutputFile != null)
+                            {
+                                extractOutputFile.Close();
+                                extractOutputFile.FreeReader(inputDocument);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (firstPage > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("firstPage", String.Format(exceptionParameterCannotBeGreatThan,"firstPage", "the number of pages in the document."));
+                        throw new ArgumentOutOfRangeException("lastPage", String.Format(exceptionParameterCannotBeGreatThan,"firstPage", "the number of pages in the document."));
+                    }
+
+                }
+                catch
+                {
+                    try
+                    {
+                        File.Delete(outputFile);
+                    }
+                    catch { }
+                    throw;
+
+                }
+                finally
+                {
+                    if (inputDocument != null) inputDocument.Close();
+                    inputDocument = null;
+                }
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(inputFile) || String.IsNullOrWhiteSpace(inputFile)) throw new ArgumentNullException("inputFile", exceptionArgumentNullOrEmptyString);
+                if (String.IsNullOrEmpty(outputFile) || String.IsNullOrWhiteSpace(outputFile)) throw new ArgumentNullException("outputFile", exceptionArgumentNullOrEmptyString);
+                if (firstPage < 1) throw new ArgumentOutOfRangeException("firstPage", exceptionArgumentZeroOrNegative);
+                if (lastPage < 1) throw new ArgumentOutOfRangeException("lastPage", exceptionArgumentZeroOrNegative);
+                if (lastPage < firstPage) throw new ArgumentOutOfRangeException("lastPage", String.Format(exceptionParameterCannotBeLessThan, "lastPage", "firstPage"));                
+            }
+
+
         }
 
         /// <summary>
