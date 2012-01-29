@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfMiniToolsTests", "PdfMin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfCat", "PdfCat\PdfCat.csproj", "{DCAA51ED-78B1-43BA-BC5D-577927B0F0AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSplit", "PdfSplit\PdfSplit.csproj", "{0100665D-EF21-4ADB-A958-76B8017D462A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{DCAA51ED-78B1-43BA-BC5D-577927B0F0AD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{DCAA51ED-78B1-43BA-BC5D-577927B0F0AD}.Release|x86.ActiveCfg = Release|x86
 		{DCAA51ED-78B1-43BA-BC5D-577927B0F0AD}.Release|x86.Build.0 = Release|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Debug|x86.ActiveCfg = Debug|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Debug|x86.Build.0 = Debug|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Release|Any CPU.ActiveCfg = Release|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Release|x86.ActiveCfg = Release|x86
+		{0100665D-EF21-4ADB-A958-76B8017D462A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
