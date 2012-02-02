@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
+
+using iTextSharpText = iTextSharp.text;
+using iTextSharpPDF = iTextSharp.text.pdf;
 
 using NUnit.Framework;
 
@@ -24,10 +29,42 @@ namespace PdfMiniToolsTests
             coreTest.ConcatenatePDFFiles(inputFiles, outputFile);
         }
 
-        public void TestExtractPages()
+        [Test]
+        public void TestExtractPages_GoldenPath()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            coreTest.ExtractPDFPages(@"..\..\Heart_of_Darkness_NT.pdf", @"..\..\Heart_of_Darkness_66_101.pdf", 66, 101);
+            Assert.IsTrue(ArePagesIdentical(@"..\..\Heart_of_Darkness_66_101.pdf", 1, 36, @"..\..\Heart_of_Darkness_NT.pdf", 66));
+        }
 
+        private bool ArePagesIdentical(String firstPdf, int firstStartPage, int firstLastPage,
+                                       String secondPdf, int secondStartPage)
+        {
+            bool pagesAreIdentical = true;
+            var firstPdfReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(firstPdf), null);
+            var secondPdfReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(secondPdf), null);
+
+
+            int secondPdfPage = secondStartPage;
+            try
+            {
+                for (int currentFirstPage = firstStartPage; currentFirstPage < firstLastPage; currentFirstPage++)
+                {
+                    if (BitConverter.ToInt32(new MD5CryptoServiceProvider().ComputeHash(firstPdfReader.GetPageContent(currentFirstPage)), 0)
+                        != BitConverter.ToInt32(new MD5CryptoServiceProvider().ComputeHash(secondPdfReader.GetPageContent(secondPdfPage)), 0))
+                    {
+                        pagesAreIdentical = false;
+                        break;
+                    }
+                    secondPdfPage++;
+                }
+            }
+            finally
+            {
+                if (firstPdfReader != null) firstPdfReader.Close();
+                if (secondPdfReader != null) secondPdfReader.Close();
+            }
+            return pagesAreIdentical;
         }
 
         [Test]

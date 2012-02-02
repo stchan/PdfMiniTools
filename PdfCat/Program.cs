@@ -13,15 +13,15 @@ namespace PdfCat
     {
         
 
-        const string messageFileNotFound = "{0} not found or inaccessible.";
-        const string messageCouldNotCreateFile = "Could not create {0}";
+        private const string messageFileNotFound = "{0} not found or inaccessible.";
+        private const string messageCouldNotCreateFile = "Could not create {0}";
 
-        const string messageNoFilesSpecified = "No input or output files were specified.";
-        const string messageNoInputFileSpecifed = "No input file(s) specified.";
-        const string messageInsufficientInputFiles = "At least two files to concatenate must be specified.";
+        private const string messageNoFilesSpecified = "No input or output files were specified.";
+        private const string messageNoInputFileSpecifed = "No input file(s) specified.";
+        private const string messageInsufficientInputFiles = "At least two files to concatenate must be specified.";
 
-        const string messageUnexpectedError = "There was an unexpected internal error.";
-        const string messageUnhandledException = "Exception: {0}\r\nMessage:{1}\r\nStack Trace:{2}";
+        private const string messageUnexpectedError = "There was an unexpected internal error.";
+        private const string messageUnhandledException = "Exception: {0}\r\nMessage:{1}\r\nStack Trace:{2}";
 
         static void Main(string[] args)
         {

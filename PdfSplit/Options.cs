@@ -4,7 +4,7 @@ using System.Text;
 
 using CommandLine;
 
-namespace PddSplit
+namespace PdfSplit
 {
     public class Options
     {
@@ -12,10 +12,11 @@ namespace PddSplit
         [Option("d", "debug", Required = false, HelpText = "Display details of any unhandled exceptions. Default is false.")]
         public bool DebugMessages = false;
 
+        [Option("p", "prefix", Required = false, HelpText = "Sets the prefix of outputfiles. Default is the input filename.")]
+        public String OutputFilePrefix = null;
 
-        //[Option("s", "splits", Required = true, HelpText = "Pages to split at.")]
-        [OptionList("s", "splits", ',', Required=true, HelpText="Pages to split at, separated by a comma.")]
-        public String SplitPages = String.Empty;
+        [OptionList("s", "splits", Required = true, Separator = ',', HelpText = "Pages to split at, separated by a comma.")]
+        public IList<String> SplitPages = null;
 
 
         [HelpOption(HelpText = "Display this help text.")]
@@ -23,11 +24,13 @@ namespace PddSplit
         {
             StringBuilder helpMessage = new StringBuilder();
             helpMessage.AppendLine("Usage:");
-            helpMessage.AppendLine("\n   pdfcat file file2 [file3...] outputfile");
+            helpMessage.AppendLine("\n   pdfsplit -s page1[,page2] [-p prefix] file");
             helpMessage.AppendLine("\nExample:");
-            helpMessage.AppendLine("\n   pdfcat file1.pdf file2.pdf concat.pdf");
-            helpMessage.AppendLine("\nConcatenates file1.pdf and file2.pdf into concat.pdf");
-
+            helpMessage.AppendLine("\n   pdfsplit -s 11,21 -p splitfile file1.pdf");
+            helpMessage.AppendLine("\nSplits file1.pdf at pages 11, and 21 into three files:");
+            helpMessage.AppendLine("\n   splitfile1.pdf (contains pages 1-10)");
+            helpMessage.AppendLine("\n   splitfile2.pdf (contains pages 11-20)");
+            helpMessage.AppendLine("\n   splitfile3.pdf (contains all remaining pages)");
             return helpMessage.ToString();
         }
 

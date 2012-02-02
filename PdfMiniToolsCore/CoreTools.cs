@@ -22,7 +22,7 @@ namespace PdfMiniToolsCore
         private const String exceptionArgumentNullOrEmptyString = "Parameter cannot be null, an empty string, or all whitespace.";
         private const String exceptionArgumentZeroOrNegative = "Parameter cannot be zero or negative.";
         private const String exceptionParameterCannotBeLessThan = "{0} cannot be less than {1}";
-        private const String exceptionParameterCannotBeGreatThan = "{0} cannot be great than {1}";
+        private const String exceptionParameterCannotBeGreaterThan = "{0} cannot be great than {1}";
 
         #endregion
 
@@ -94,7 +94,7 @@ namespace PdfMiniToolsCore
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">The PDF file</param>
         /// <returns>A <see cref="Dictionary<String, String>"/> object</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <remarks></remarks>
@@ -226,6 +226,9 @@ namespace PdfMiniToolsCore
         /// <param name="outputFile">The new file to write the extracted pages to.</param>
         /// <param name="firstPage">The first page to extract.</param>
         /// <param name="lastPage">The last page to extract.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <remarks><see cref="FileStream"/> constructor exceptions may also be thrown.</remarks>
         public void ExtractPDFPages(String inputFile, String outputFile, int firstPage, int lastPage)
         {
             if (!String.IsNullOrEmpty(inputFile) && !String.IsNullOrWhiteSpace(inputFile) &&
@@ -236,7 +239,8 @@ namespace PdfMiniToolsCore
                 var inputDocument = new iTextSharpPDF.PdfReader(inputFile);
                 try
                 {
-                    // Pages specified must not be outside
+                    // Page numbers specified must not be greater
+                    // than the number of pages in the document 
                     if (firstPage <= inputDocument.NumberOfPages &&
                         lastPage <= inputDocument.NumberOfPages)
                     {
@@ -265,8 +269,8 @@ namespace PdfMiniToolsCore
                     }
                     else
                     {
-                        if (firstPage > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("firstPage", String.Format(exceptionParameterCannotBeGreatThan,"firstPage", "the number of pages in the document."));
-                        throw new ArgumentOutOfRangeException("lastPage", String.Format(exceptionParameterCannotBeGreatThan,"firstPage", "the number of pages in the document."));
+                        if (firstPage > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("firstPage", String.Format(exceptionParameterCannotBeGreaterThan,"firstPage", "the number of pages in the document."));
+                        throw new ArgumentOutOfRangeException("lastPage", String.Format(exceptionParameterCannotBeGreaterThan,"firstPage", "the number of pages in the document."));
                     }
 
                 }
