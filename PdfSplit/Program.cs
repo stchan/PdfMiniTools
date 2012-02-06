@@ -71,6 +71,17 @@ namespace PdfSplit
                     {
                         inputFile.Close();
                     }
+
+                }
+                catch
+                {
+                    errorMessage = String.Format(messageFileNotFound, commandLineOptions.Items[0]);
+                }
+                
+                if (String.IsNullOrWhiteSpace(errorMessage))
+                {
+                    // File can be opened, check
+                    // if the split pages are valid
                     if (commandLineOptions.SplitPages.Count > 0)
                     {
                         foreach (String splitPage in commandLineOptions.SplitPages)
@@ -88,13 +99,7 @@ namespace PdfSplit
                     {
                         errorMessage = messageNoSplitPagesSpecifed;
                     }
-
                 }
-                catch
-                {
-                    errorMessage = String.Format(messageFileNotFound, commandLineOptions.Items[0]);
-                }
-
 
             }
             else
