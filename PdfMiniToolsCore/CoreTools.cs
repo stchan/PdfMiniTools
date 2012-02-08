@@ -92,6 +92,45 @@ namespace PdfMiniToolsCore
         }
 
         /// <summary>
+        /// Checks if a file has a valid PDF structure by
+        /// trying to create a PdfReader object for it.
+        /// This function will only check for valid PDF header
+        /// and xref information, it will not detect corrupt
+        /// content within.
+        /// </summary>
+        /// <param name="filename">The PDF file to check</param>
+        /// <returns>true if file's pdf structure is valid, false otherwise</returns>
+        /// <exception cref="ArgumentNullException">Will be thrown if <paramref name="filename"/> is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Will be thrown if <paramref name="filename"/> cannot be found or accessed.</exception>
+        public bool FileHasValidPDFStructure(String filename)
+        {
+            bool structureIsValid = false;
+            if (!String.IsNullOrEmpty(filename) &&
+                !String.IsNullOrWhiteSpace(filename) &&
+                File.Exists(filename))
+            {
+                iTextSharpPDF.PdfReader inputDocument = null;
+                try
+                {
+                    inputDocument = new iTextSharpPDF.PdfReader(filename);
+                    structureIsValid = true;
+                }
+                catch (IOException) {  }
+                finally
+                {
+                    if (inputDocument != null) inputDocument.Close();
+                }
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(filename) ||
+                    String.IsNullOrWhiteSpace(filename)) throw new ArgumentNullException(filename);
+                else throw new FileNotFoundException();
+            }
+            return structureIsValid;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="filename">The PDF file</param>
@@ -385,8 +424,8 @@ namespace PdfMiniToolsCore
                 }
                 else
                 {
-                    if (splitStartPages.Keys[splitStartPages.Count - 1] > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("splitStartPages", String.Format("Final key value (page number) must be less than the number of pages ({0}). Passed value is {1}.", inputDocument.NumberOfPages, splitStartPages.Keys[splitStartPages.Count - 1]));
-                    throw new ArgumentOutOfRangeException("splitStartPages", "First key value (page number) must be 1.");
+                    if (splitStartPages.Keys[splitStartPages.Count - 1] > inputDocument.NumberOfPages) throw new ArgumentOutOfRangeException("splitStartPages", String.Format("Final page number must be less than the number of pages ({0}). Passed value is {1}.", inputDocument.NumberOfPages, splitStartPages.Keys[splitStartPages.Count - 1]));
+                    throw new ArgumentOutOfRangeException("splitStartPages", "First page number must be 1.");
                 }
             }
             else

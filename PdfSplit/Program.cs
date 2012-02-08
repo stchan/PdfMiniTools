@@ -63,42 +63,22 @@ namespace PdfSplit
 
             if (commandLineOptions.Items.Count > 0)
             {
-                // Make sure the input file can actually be
-                // opened
-                try
+                if (commandLineOptions.SplitPages.Count > 0)
                 {
-                    using (FileStream inputFile = new FileStream(commandLineOptions.Items[0], FileMode.Open, FileAccess.Read))
+                    foreach (String splitPage in commandLineOptions.SplitPages)
                     {
-                        inputFile.Close();
-                    }
-
-                }
-                catch
-                {
-                    errorMessage = String.Format(messageFileNotFound, commandLineOptions.Items[0]);
-                }
-                
-                if (String.IsNullOrWhiteSpace(errorMessage))
-                {
-                    // File can be opened, check
-                    // if the split pages are valid
-                    if (commandLineOptions.SplitPages.Count > 0)
-                    {
-                        foreach (String splitPage in commandLineOptions.SplitPages)
+                        UInt32 parseResult;
+                        if (!UInt32.TryParse(splitPage, out parseResult))
                         {
-                            UInt32 parseResult;
-                            if (!UInt32.TryParse(splitPage, out parseResult))
-                            {
-                                errorMessage = String.Format(messageInvalidSplitPage, splitPage);
-                                break;
-                            }
+                            errorMessage = String.Format(messageInvalidSplitPage, splitPage);
+                            break;
                         }
+                    }
 
-                    }
-                    else
-                    {
-                        errorMessage = messageNoSplitPagesSpecifed;
-                    }
+                }
+                else
+                {
+                    errorMessage = messageNoSplitPagesSpecifed;
                 }
 
             }
@@ -109,7 +89,7 @@ namespace PdfSplit
             if (!String.IsNullOrEmpty(errorMessage))
             {
                 validatedOK = false;
-                Console.Error.WriteLine(errorMessage);
+                Console.Error.WriteLine(Environment.NewLine + errorMessage);
                 Environment.ExitCode = 1;
             }
             return validatedOK;

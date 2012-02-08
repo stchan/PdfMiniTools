@@ -68,6 +68,15 @@ namespace PdfMiniToolsTests
         }
 
         [Test]
+        public void TestFileHasValidPDFStructure()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            Assert.IsTrue(coreTest.FileHasValidPDFStructure(@"..\..\Heart_of_Darkness_NT.pdf"));
+            Assert.IsFalse(coreTest.FileHasValidPDFStructure(@"..\..\acroread.png"));
+
+        }
+
+        [Test]
         public void TestParsePDFDateTime()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
