@@ -10,7 +10,7 @@ namespace PdfSplit
 {
     public class Program
     {
-        private const string messageFileNotFound = "{0} was not found or inaccessible.";
+        private const string messageFileNotFound = "{0} not found or inaccessible.";
 
         private const string messageNoInputFileSpecifed = "No input file(s) specified.";
         private const string messageNoSplitPagesSpecifed = "No split pages specified.";
