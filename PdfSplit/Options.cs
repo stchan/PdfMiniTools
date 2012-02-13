@@ -15,7 +15,14 @@ namespace PdfSplit
         [Option("p", "prefix", Required = false, HelpText = "Sets the prefix of outputfiles. Default is the input filename.")]
         public String OutputFilePrefix = null;
 
-        [OptionList("s", "splits", Required = true, Separator = ',', HelpText = "Pages to split at, separated by a comma.")]
+        [OptionList("a", "allpages", Required = false, Separator = ',', 
+                    HelpText = "Pages to split at, separated by a comma.",
+                    MutuallyExclusiveSet="SplitPages")]
+        public Boolean allPages = false;
+
+        [OptionList("s", "splits", Required = false, Separator = ',', 
+                    HelpText = "Pages to split at, separated by a comma.",
+                    MutuallyExclusiveSet = "SplitPages")]
         public IList<String> SplitPages = null;
 
 
@@ -24,13 +31,22 @@ namespace PdfSplit
         {
             StringBuilder helpMessage = new StringBuilder();
             helpMessage.AppendLine("Usage:");
-            helpMessage.AppendLine("\n   pdfsplit -s page1[,page2] [-p prefix] file");
+            helpMessage.AppendLine("\n   pdfsplit -{a|s} [page1,page2] [-p prefix] file");
             helpMessage.AppendLine("\nExample:");
             helpMessage.AppendLine("\n   pdfsplit -s 11,21 -p splitfile file1.pdf");
-            helpMessage.AppendLine("\nSplits file1.pdf at pages 11, and 21 into three files:");
-            helpMessage.AppendLine("\n   splitfile1.pdf (contains pages 1-10)");
-            helpMessage.AppendLine("\n   splitfile2.pdf (contains pages 11-20)");
-            helpMessage.AppendLine("\n   splitfile3.pdf (contains all remaining pages)");
+            helpMessage.AppendLine("\nSplits file1.pdf at pages 11, and 21 into three files:\n");
+            helpMessage.AppendLine("   splitfile01.pdf (contains pages 1-10)");
+            helpMessage.AppendLine("   splitfile02.pdf (contains pages 11-20)");
+            helpMessage.AppendLine("   splitfile03.pdf (contains all remaining pages)");
+            helpMessage.AppendLine("\nExample 2:");
+            helpMessage.AppendLine("\n   pdfsplit -a file.pdf");
+            helpMessage.AppendLine("\nSplits file.pdf at every page.\n");
+            helpMessage.AppendLine("   file01.pdf (page 1)");
+            helpMessage.AppendLine("   file02.pdf (page 2)");
+            helpMessage.AppendLine("   file03.pdf (page 3)");
+            helpMessage.AppendLine("       .");
+            helpMessage.AppendLine("       .");
+            helpMessage.AppendLine("   fileXX.pdf (page XX - last page)");
             return helpMessage.ToString();
         }
 

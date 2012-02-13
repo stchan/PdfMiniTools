@@ -131,10 +131,11 @@ namespace PdfMiniToolsCore
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the following properties as <see cref="Dictionary&lt;String,String&gt;"/> key/value pairs:
+        /// Page Count, Encrypted, Pdf Version, Rebuilt
         /// </summary>
         /// <param name="filename">The PDF file</param>
-        /// <returns>A <see cref="Dictionary<String, String>"/> object</returns>
+        /// <returns>A <see cref="Dictionary&lt;String, String&gt;"/> object</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <remarks></remarks>
         public Dictionary<String, String> RetrieveBasicProperties(String filename)
@@ -156,6 +157,40 @@ namespace PdfMiniToolsCore
             return basicProperties;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public Dictionary<String, String> RetrieveAcroFieldsData(String filename)
+        {
+            Dictionary<String, String> fieldsData = new Dictionary<string, string>();
+            if (!String.IsNullOrEmpty(filename) && !String.IsNullOrWhiteSpace(filename))
+            {
+                var documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
+                IDictionaryEnumerator fieldsEnumerator = documentReader.AcroFields.Fields.GetEnumerator();
+                while (fieldsEnumerator.MoveNext())
+                {
+                    String pdfInfoValue = null;
+                    DateTimeOffset? pdfInfoDate;
+                    if (fieldsEnumerator.Value != null)
+                    {
+                        pdfInfoDate = TryParsePDFDateTime(fieldsEnumerator.Value.ToString());
+                        if (pdfInfoDate.HasValue)
+                        {
+                            pdfInfoValue = String.Format("{0:F}", ((DateTimeOffset)pdfInfoDate).DateTime);
+                        }
+                        else
+                        {
+                            pdfInfoValue = fieldsEnumerator.Value as String;
+                        }
+                    }
+                    fieldsData.Add(fieldsEnumerator.Key as String, pdfInfoValue);
+
+                }
+            }
+            return fieldsData;
+        }
 
         /// <summary>
         /// 

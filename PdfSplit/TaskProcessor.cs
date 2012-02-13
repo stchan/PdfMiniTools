@@ -14,8 +14,27 @@ namespace PdfSplit
         public void ProcessTask(Options commandLineOptions)
         {
             String inputFile = commandLineOptions.Items[0];
-            List<String> splitPages = commandLineOptions.SplitPages.Distinct().ToList<String>();
-            splitPages.Sort();
+            var splitTools = new CoreTools();
+            List<String> splitPages;
+            switch (commandLineOptions.allPages)
+            {
+                case (true):
+                    // Splitting out every single page,
+                    // so there has to be any entry for
+                    // every page in the List object
+                    Dictionary<String, String> pdfInfo = splitTools.RetrieveBasicProperties(inputFile);
+                    int pageCount = Convert.ToInt32(pdfInfo["Page Count"]);
+                    splitPages = new List<string>();
+                    for (int loop = 2; loop <= pageCount; loop++)
+                    {
+                        splitPages.Add(loop.ToString());
+                    }
+                    break;
+                default:
+                    splitPages = commandLineOptions.SplitPages.Distinct().ToList<String>();
+                    splitPages.Sort();
+                    break;
+            }
             String outputFilePrefix;
             if (!String.IsNullOrWhiteSpace(commandLineOptions.OutputFilePrefix))
             {
@@ -32,13 +51,14 @@ namespace PdfSplit
                     outputFilePrefix = Path.GetFileNameWithoutExtension(commandLineOptions.Items[0]);
                 }
             }
+            outputFilePrefix += "{0:" + new String('0', splitPages.Count.ToString().Length) + "}.PDF";
             var splitStartPages = new SortedList<int, String>();
-            splitStartPages.Add(1, outputFilePrefix + "1.PDF");
+            
             for (int loop = 0; loop < splitPages.Count; loop++)
             {
-                splitStartPages.Add(Convert.ToInt32(splitPages[loop]), outputFilePrefix + (loop + 2).ToString() + ".PDF");
+                splitStartPages.Add(Convert.ToInt32(splitPages[loop]), String.Format(outputFilePrefix, loop + 2));
             }
-            var splitTools = new CoreTools();
+            if (!splitStartPages.ContainsKey(1)) splitStartPages.Add(1, String.Format(outputFilePrefix, 1)); // Add page 1 if not specified by user (it usually isn't)
             try
             {
                 splitTools.SplitPDF(inputFile, splitStartPages);

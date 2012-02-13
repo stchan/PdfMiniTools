@@ -122,6 +122,14 @@ namespace PdfMiniToolsTests
         }
 
         [Test]
+        public void TestRetrieveAcroFieldsData()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            Dictionary<String, String> acroFieldsDataDictionary = coreTest.RetrieveAcroFieldsData(@"..\..\NYCBLA-PI1.pdf");
+            Assert.IsTrue(acroFieldsDataDictionary != null);
+        }
+
+        [Test]
         public void TestRetrieveInfo()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();

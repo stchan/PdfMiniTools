@@ -23,7 +23,7 @@ namespace PdfSplit
         public static void Main(string[] args)
         {
             Options commandLineOptions = new Options();
-            ICommandLineParser commandParser = new CommandLineParser();
+            ICommandLineParser commandParser = new CommandLineParser(new CommandLineParserSettings(true, true));
             if (commandParser.ParseArguments(args, commandLineOptions, Console.Error))
             {
                 if (ValidateOptions(commandLineOptions))
@@ -63,24 +63,26 @@ namespace PdfSplit
 
             if (commandLineOptions.Items.Count > 0)
             {
-                if (commandLineOptions.SplitPages.Count > 0)
+                if (!commandLineOptions.allPages) // No need to check -s options since -a was specified
                 {
-                    foreach (String splitPage in commandLineOptions.SplitPages)
+                    if (commandLineOptions.SplitPages != null && commandLineOptions.SplitPages.Count > 0)
                     {
-                        UInt32 parseResult;
-                        if (!UInt32.TryParse(splitPage, out parseResult))
+                        foreach (String splitPage in commandLineOptions.SplitPages)
                         {
-                            errorMessage = String.Format(messageInvalidSplitPage, splitPage);
-                            break;
+                            UInt32 parseResult;
+                            if (!UInt32.TryParse(splitPage, out parseResult))
+                            {
+                                errorMessage = String.Format(messageInvalidSplitPage, splitPage);
+                                break;
+                            }
                         }
+
                     }
-
+                    else
+                    {
+                        errorMessage = messageNoSplitPagesSpecifed;
+                    }
                 }
-                else
-                {
-                    errorMessage = messageNoSplitPagesSpecifed;
-                }
-
             }
             else
             {
