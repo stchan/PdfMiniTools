@@ -12,8 +12,9 @@ namespace PdfExtract
         private const string messageFileNotFound = "{0} not found or inaccessible.";
 
         private const string messageNoInputFileSpecifed = "No input file(s) specified.";
-        private const string messageNoSplitPagesSpecifed = "No split pages specified.";
-        private const string messageInvalidSplitPage = "Invalid split page: {0}";
+        private const string messageNoExtractPagesSpecifed = "No extract pages specified.";
+        private const string messageInvalidExtractPage = "Invalid extract page: {0}";
+        private const string messageInvalidExtractRange = "Invalid extract range: {0}";
 
         private const string messageUnexpectedError = "There was an unexpected internal error.";
         private const string messageUnhandledException = "Exception: {0}\r\nMessage:{1}\r\nStack Trace:{2}";
@@ -56,16 +57,26 @@ namespace PdfExtract
         {
             bool validatedOK = false;
             StringBuilder errorMessage = new StringBuilder();
-            /*
             if (commandLineOptions.Items.Count > 0)
             {
-                validatedOK = true;
+                // Make sure user has specified pages to extract
+                if (commandLineOptions.ExtractPages != null && commandLineOptions.ExtractPages.Count > 0)
+                {
+                    // Make sure the input file can actually be
+                    // opened
+
+                    validatedOK = true;
+                }
+                else
+                {
+                    // No extract pages specified
+                    errorMessage.Append(messageNoExtractPagesSpecifed);
+                }
             }
             else
             {
                 errorMessage.Append(messageNoInputFileSpecifed);
             }
-             */ 
             if (!validatedOK) System.Console.Error.WriteLine(errorMessage.ToString());
             return validatedOK;
         }

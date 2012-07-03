@@ -13,7 +13,7 @@ namespace PdfExtract
         public bool DebugMessages = false;
 
         [OptionList("e", "extract", Required = true, Separator = ',',
-            HelpText = "Pages to extract, separated by a comma.",
+            HelpText = "Page (or page range) to extract, separated by a comma.",
             MutuallyExclusiveSet = "ExtractPages")]
         public IList<String> ExtractPages = null;
 
@@ -25,10 +25,12 @@ namespace PdfExtract
         {
             StringBuilder helpMessage = new StringBuilder();
             helpMessage.AppendLine("Usage:");
-            helpMessage.AppendLine("\n   pdfextract -e page1[,page2] [-p prefix] inputfile ");
+            helpMessage.AppendLine("\n   pdfextract -e {page1|startpage1-endpage1}[,{page2|startpage2-endpage2}] [-p prefix] inputfile ");
             helpMessage.AppendLine("\nExample:");
             helpMessage.AppendLine("\n   pdfextract -e 12,16,23 inputfile.pdf");
             helpMessage.AppendLine("\nExtracts pages 12,16, and 23 from inputfile.pdf");
+            helpMessage.AppendLine("\n   pdfextract -e 10-16,23,31 inputfile.pdf");
+            helpMessage.AppendLine("\nExtracts pages 10 through 16, 23, and 31 from inputfile.pdf");
 
             return helpMessage.ToString();
         }
