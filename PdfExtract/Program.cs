@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using CommandLine;
 
@@ -15,6 +17,7 @@ namespace PdfExtract
         private const string messageNoExtractPagesSpecifed = "No extract pages specified.";
         private const string messageInvalidExtractPage = "Invalid extract page: {0}";
         private const string messageInvalidExtractRange = "Invalid extract range: {0}";
+        private const string messageInvalidExtractPageOrRange = "Invalid extract page or range: {0}";
 
         private const string messageUnexpectedError = "There was an unexpected internal error.";
         private const string messageUnhandledException = "Exception: {0}\r\nMessage:{1}\r\nStack Trace:{2}";
@@ -64,8 +67,49 @@ namespace PdfExtract
                 {
                     // Make sure the input file can actually be
                     // opened
-
-                    validatedOK = true;
+                    try
+                    {
+                        using (FileStream inputFile = new FileStream(commandLineOptions.Items[0], FileMode.Open, FileAccess.Read))
+                        {
+                            inputFile.Close();
+                        }
+                    }
+                    catch
+                    {
+                        errorMessage.AppendLine(String.Format(messageFileNotFound, commandLineOptions.Items[0]));
+                    }
+                    if (errorMessage.Length == 0)
+                    {
+                        // Validate the extract page parameters
+                        Regex singlePage = new Regex(@"^\d+$", RegexOptions.IgnorePatternWhitespace);
+                        Regex pageRange = new Regex(@"^\d+-\d+$", RegexOptions.IgnorePatternWhitespace);
+                        foreach (String extractPageParameter in commandLineOptions.ExtractPages)
+                        {
+                            if (!singlePage.IsMatch(extractPageParameter))
+                            {
+                                if (!pageRange.IsMatch(extractPageParameter))
+                                {
+                                    // Parameter is neither a valid page
+                                    // nor a valid page range
+                                    errorMessage.AppendLine(String.Format(messageInvalidExtractPageOrRange, extractPageParameter));
+                                }
+                                else
+                                {
+                                    // Valid range format
+                                    // Make sure the start page in the range
+                                    // is less than the end page
+                                    String[] extractPages = extractPageParameter.Split('-');
+                                    int startPage, endPage;
+                                    if (!(Int32.TryParse(extractPages[0], out startPage) && Int32.TryParse(extractPages[1], out endPage)
+                                        && endPage >= startPage))
+                                    {
+                                        errorMessage.AppendLine(String.Format(messageInvalidExtractRange, extractPageParameter));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (String.IsNullOrEmpty(errorMessage.ToString())) validatedOK = true;
                 }
                 else
                 {
@@ -75,6 +119,7 @@ namespace PdfExtract
             }
             else
             {
+                // No input file specified
                 errorMessage.Append(messageNoInputFileSpecifed);
             }
             if (!validatedOK) System.Console.Error.WriteLine(errorMessage.ToString());
