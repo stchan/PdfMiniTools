@@ -39,7 +39,7 @@ namespace PdfExtract
                     {
                         StringBuilder errorMessage = new StringBuilder();
                         errorMessage.AppendLine(messageUnexpectedError);
-                        if (commandLineOptions.DebugMessages)
+                        if (commandLineOptions.DebugMessages == true)
                         {
                             errorMessage.AppendFormat(messageUnhandledException, ex.ToString(), ex.Message, ex.StackTrace);
                         }
@@ -92,19 +92,33 @@ namespace PdfExtract
                                     // Parameter is neither a valid page
                                     // nor a valid page range
                                     errorMessage.AppendLine(String.Format(messageInvalidExtractPageOrRange, extractPageParameter));
+                                    break;
                                 }
                                 else
                                 {
                                     // Valid range format
                                     // Make sure the start page in the range
-                                    // is less than the end page
+                                    // is less than the end page, and that
+                                    // neither page is zero
                                     String[] extractPages = extractPageParameter.Split('-');
                                     int startPage, endPage;
                                     if (!(Int32.TryParse(extractPages[0], out startPage) && Int32.TryParse(extractPages[1], out endPage)
-                                        && endPage >= startPage))
+                                        && (endPage >= startPage) && startPage >= 1 && endPage >= 1))
                                     {
                                         errorMessage.AppendLine(String.Format(messageInvalidExtractRange, extractPageParameter));
+                                        break;
                                     }
+                                }
+                            }
+                            else
+                            {
+                                // Make sure single page is not zero
+                                int extractPage;
+                                if (!(Int32.TryParse(extractPageParameter, out extractPage) &&
+                                    extractPage >= 1))
+                                {
+                                    errorMessage.AppendLine(String.Format(messageInvalidExtractPageOrRange, extractPageParameter));
+                                    break;
                                 }
                             }
                         }
