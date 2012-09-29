@@ -75,8 +75,13 @@ namespace PdfExtract
             {
                 if (argException.Message.Contains("the number of pages in the document"))
                 {
-                    System.Console.Error.WriteLine("A page number beyond the last page was specified.");
+                    System.Console.Error.WriteLine("A page after the last page was specified.");
                 }
+                else if (argException.Message.Contains("Parameter cannot be zero or negative"))
+                {
+                    System.Console.Error.WriteLine("A page number less than one was specified.");
+                }
+
 
             }
             catch (UnauthorizedAccessException)
