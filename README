@@ -6,3 +6,4 @@ to build, and test the project.
 The following third party components are used/included:
 - CommandLine Parser library (v1.8 stable) - http://commandline.codeplex.com/
 - PDF icon from open icon library (LGPL ) - http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png
+- iTextSharp (v4.1.6 - last LGPL version) - http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/
