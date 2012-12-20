@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using iTextSharpText = iTextSharp.text;
 using iTextSharpPDF = iTextSharp.text.pdf;
 
+using BouncyX509 = Org.BouncyCastle.X509;
+
 namespace PdfMiniToolsCore
 {
     
@@ -471,6 +473,11 @@ namespace PdfMiniToolsCore
             }
         }
 
+        #endregion
+
+        #region Digital Signature
+
+        
         #endregion
     }
 }

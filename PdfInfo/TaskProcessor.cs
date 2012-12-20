@@ -31,6 +31,9 @@ namespace PdfInfo
                     {
                         pdfInfo.Add(pdfInfoPair.Key, pdfInfoPair.Value);
                     }
+                }
+                if (commandLineOptions.showAll)
+                {
                     foreach (KeyValuePair<String, String> pdfInfoPair in infoTools.RetrieveInfo(inputFile))
                     {
                         pdfInfo.Add(pdfInfoPair.Key, pdfInfoPair.Value);

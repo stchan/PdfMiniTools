@@ -15,3 +15,5 @@
 /PdfExtract/obj
 /PdfMiniToolsGUI/obj
 /PdfMiniToolsGUI/bin
+/Installer/PdfMiniTools.wixpdb
+/Installer/PdfMiniTools.wixobj
