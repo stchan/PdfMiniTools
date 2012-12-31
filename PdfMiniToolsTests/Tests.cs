@@ -20,7 +20,7 @@ namespace PdfMiniToolsTests
         {}
         #endregion
 
-        //[Test]
+        [Test]
         public void TestConcatenatePDFFiles()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -29,7 +29,7 @@ namespace PdfMiniToolsTests
             coreTest.ConcatenatePDFFiles(inputFiles, outputFile);
         }
 
-        //[Test]
+        [Test]
         public void TestExtractPages_GoldenPath()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -67,7 +67,7 @@ namespace PdfMiniToolsTests
             return pagesAreIdentical;
         }
 
-        //[Test]
+        [Test]
         public void TestFileHasValidPDFStructure()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -76,7 +76,7 @@ namespace PdfMiniToolsTests
 
         }
 
-        //[Test]
+        [Test]
         public void TestParsePDFDateTime()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -108,7 +108,7 @@ namespace PdfMiniToolsTests
             Assert.Throws<ArgumentNullException>(delegate { coreTest.TryParsePDFDateTime(null); });
         }
 
-        //[Test]
+        [Test]
         public void TestRetrieveBasicProperties()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -139,7 +139,7 @@ namespace PdfMiniToolsTests
             Assert.IsTrue(pdfInfo.Count > 0);
         }
 
-        //[Test]
+        [Test]
         public void TestSplitPDF()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
