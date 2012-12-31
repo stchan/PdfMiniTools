@@ -67,7 +67,7 @@ the new file joinedfile.pdf
 
 Usage (pdfExtract):
 
-	pdfextract -e {page1|startpage1-endpage1}[,{page2|startpage2-endpage2}] [-p prefix] inputfile
+	pdfExtract -e {page1|startpage1-endpage1}[,{page2|startpage2-endpage2}] [-p prefix] inputfile
 
 Options:
 
@@ -76,28 +76,28 @@ Options:
 
 Example:
 
-	pdfextract -e 12,16,23 inputfile.pdf
+	pdfExtract -e 12,16,23 inputfile.pdf
 
 Extracts pages 12,16, and 23 from inputfile.pdf. Output filenames will be 
 inputfile_1.pdf, inputfile_2.pdf, and inputfile_3.pdf.
 
 Example 2:
 
-	pdfextract -e 10-16,23,31 inputfile.pdf
+	pdfExtract -e 10-16,23,31 inputfile.pdf
 
 Extracts pages 10-16, 23, and 31 from inputfile.pdf. Output filenames will be
 inputfile_1.pdf, inputfile2.pdf, and inputfile3.pdf.
 
 Example 3:
 
-	pdfextract -e 12 -p output inputfile.pdf
+	pdfExtract -e 12 -p output inputfile.pdf
 	
 Extracts page 12 from inputfile.pdf. Output filename will be output1.pdf.
 
 
 Usage (pdfSplit):
 
-	pdfsplit -{a|s} [page1,page2] [-p prefix] file
+	pdfSplit -{a|s} [page1,page2] [-p prefix] file
 
 Options:
 
@@ -107,7 +107,7 @@ Options:
 
 Example:
 
-	pdfsplit -s 11,21 -p splitfile file1.pdf
+	pdfSplit -s 11,21 -p splitfile file1.pdf
 	
 Splits file1.pdf at pages 11, and 21 into three files:
 	splitfile01.pdf (contains pages 1-10)
@@ -116,7 +116,7 @@ Splits file1.pdf at pages 11, and 21 into three files:
 
 Example 2:
 
-	 pdfsplit -a file.pdf
+	 pdfSplit -a file.pdf
 	 
 Splits file.pdf at every page. Output files would be:
 	file01.pdf (page 1)
