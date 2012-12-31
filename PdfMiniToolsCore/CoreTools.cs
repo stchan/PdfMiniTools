@@ -175,7 +175,8 @@ namespace PdfMiniToolsCore
                 {
                     String pdfInfoValue = null;
                     DateTimeOffset? pdfInfoDate;
-                    if (fieldsEnumerator.Value != null)
+                    if (fieldsEnumerator.Value != null && !String.IsNullOrWhiteSpace(fieldsEnumerator.Value.ToString()) &&
+                                                          !String.IsNullOrEmpty(fieldsEnumerator.Value.ToString()))
                     {
                         pdfInfoDate = TryParsePDFDateTime(fieldsEnumerator.Value.ToString());
                         if (pdfInfoDate.HasValue)
@@ -210,7 +211,8 @@ namespace PdfMiniToolsCore
                 {
                     String pdfInfoValue = null;
                     DateTimeOffset? pdfInfoDate;
-                    if (pdfInfoEnumerator.Value != null)
+                    if (pdfInfoEnumerator.Value != null && !String.IsNullOrWhiteSpace(pdfInfoEnumerator.Value.ToString()) &&
+                                                           !String.IsNullOrEmpty(pdfInfoEnumerator.Value.ToString()))
                     {
                         pdfInfoDate = TryParsePDFDateTime(pdfInfoEnumerator.Value.ToString());
                         if (pdfInfoDate.HasValue)

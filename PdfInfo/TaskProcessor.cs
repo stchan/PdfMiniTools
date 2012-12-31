@@ -25,15 +25,12 @@ namespace PdfInfo
             Dictionary<String, String> pdfInfo = new Dictionary<String, String>();
             try
             {
-                if (commandLineOptions.showAll || commandLineOptions.showBasic)
+                if (commandLineOptions.showAll || commandLineOptions.showInfo)
                 {
                     foreach (KeyValuePair<String, String> pdfInfoPair in infoTools.RetrieveBasicProperties(inputFile))
                     {
                         pdfInfo.Add(pdfInfoPair.Key, pdfInfoPair.Value);
                     }
-                }
-                if (commandLineOptions.showAll)
-                {
                     foreach (KeyValuePair<String, String> pdfInfoPair in infoTools.RetrieveInfo(inputFile))
                     {
                         pdfInfo.Add(pdfInfoPair.Key, pdfInfoPair.Value);
@@ -101,7 +98,7 @@ namespace PdfInfo
             }
             else
             {
-                System.Console.WriteLine(reportNoPdfInfo);
+                System.Console.WriteLine(Environment.NewLine + reportNoPdfInfo);
             }
         }
         

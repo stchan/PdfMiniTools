@@ -52,15 +52,34 @@ namespace PdfInfo
         {
             bool validatedOK = false;
             StringBuilder errorMessage = new StringBuilder();
-
+            switch (commandLineOptions.Items.Count)
+            {
+                case 0:
+                    errorMessage.Append(messageNoInputFileSpecifed);
+                    break;
+                case 1:
+                    if (!commandLineOptions.showAll &&
+                        !commandLineOptions.showFields)
+                    {
+                        commandLineOptions.showInfo = true;
+                    }
+                    validatedOK = true;
+                    break;
+                default:
+                    validatedOK = true;
+                    break;
+            }
+            /*
             if (commandLineOptions.Items.Count > 0)
             {
-                validatedOK = true;
             }
+            /*
             else
             {
                 errorMessage.Append(messageNoInputFileSpecifed);
             }
+             */ 
+            //System.Console.WriteLine(commandLineOptions.Items.Count.ToString() + " commandline options entered.");
             if (!validatedOK) System.Console.Error.WriteLine(errorMessage.ToString());
             return validatedOK;
         }

@@ -1,3 +1,9 @@
+PdfMiniTools is a set of small utilities for working with PDF files:
+	pdfInfo - displays information on the properties and field content of a PDF file.
+	pdfCat - joins two or more PDF files into a single file.
+	pdfExtract - extracts pages from a PDF file into a new file.
+	pdfSplit - splits a PDF file into two or more files.
+
 Version 4.0 of the .Net framework is required.
 
 Visual C# 2010 Express (with SP1), NUnit 2.5, Warsetup 3.13, and Wix 3.5 were used
@@ -7,3 +13,7 @@ The following third party components are used/included:
 - CommandLine Parser library (v1.8 stable) - http://commandline.codeplex.com/
 - PDF icon from open icon library (LGPL ) - http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png
 - iTextSharp (v4.1.6 - last LGPL version) - http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/
+
+iTextSharp 4.1.6 was used instead of a new version because of its less restrictive license - using a newer
+version would mean PdfMiniTools could not be integrated into commercial/proprietary applications.
+
