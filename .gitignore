@@ -17,3 +17,6 @@
 /PdfMiniToolsGUI/bin
 /Installer/PdfMiniTools.wixpdb
 /Installer/PdfMiniTools.wixobj
+/PdfEvenOddMerge/bin
+/PdfEvenOddMerge/obj
+/PdfEvenOddMerge/PdfEvenOddMerge.csproj.user

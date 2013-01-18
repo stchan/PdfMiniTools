@@ -8,7 +8,7 @@ using System.Security.Permissions;
 // associated with an assembly.
 [assembly: AssemblyCompany("Black Telescope Workshop")]
 [assembly: AssemblyProduct("PdfMiniTools")]
-[assembly: AssemblyCopyright("Copyright © Sherman Chan 2012")]
+[assembly: AssemblyCopyright("Copyright © Sherman Chan 2012/2013")]
 [assembly: AssemblyTrademark("")]
 
 
