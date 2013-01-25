@@ -10,7 +10,7 @@ namespace PdfEvenOddMerge
     {
 
         [Option("s", "skip", Required = false, HelpText = "Skip extra pages.")]
-        public bool showInfo = false; 
+        public bool skipExtraPages = false; 
 
         [Option("d", "debug", Required = false, HelpText = "Display details of any unhandled exceptions. Default is false.")]
         public bool debugMessages = false;

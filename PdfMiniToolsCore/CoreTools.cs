@@ -297,6 +297,114 @@ namespace PdfMiniToolsCore
 
 
         /// <summary>
+        /// Takes pages from two pdf files, and produces an output file
+        /// whose odd pages are the contents of the first, and
+        /// even pages are the contents of the second. Useful for
+        /// merging front/back output from single sided scanners.
+        /// </summary>
+        /// <param name="oddPageFile">The file supplying odd numbered pages</param>
+        /// <param name="evenPageFile">The file supplying even numbered pages</param>
+        /// <param name="outputFile">The output file containing the merged pages</param>
+        /// <param name="skipExtraPages">Set to true to skip any extra pages if
+        ///                              one file is longer than the other</param>
+        public void EvenOddMerge(String oddPageFile, String evenPageFile, 
+                                 String outputFile, bool skipExtraPages)
+        {
+            if (!String.IsNullOrEmpty(oddPageFile) && !String.IsNullOrWhiteSpace(oddPageFile) &&
+                !String.IsNullOrEmpty(evenPageFile) && !String.IsNullOrWhiteSpace(evenPageFile) &&
+                !String.IsNullOrEmpty(outputFile) && !String.IsNullOrWhiteSpace(outputFile))
+            {
+                var oddPageDocument = new iTextSharpPDF.PdfReader(oddPageFile);
+                var evenPageDocument = new iTextSharpPDF.PdfReader(evenPageFile);
+                try
+                {
+                    iTextSharpText.Document mergedOutputDocument = null;
+                    iTextSharpPDF.PdfCopy mergedOutputFile = null;
+
+                    int lastPage = 0;
+                    switch (skipExtraPages)
+                    {
+                        case (false):
+                            lastPage = oddPageDocument.NumberOfPages;
+                            if (evenPageDocument.NumberOfPages > oddPageDocument.NumberOfPages)
+                                lastPage = evenPageDocument.NumberOfPages;
+                            else
+                                lastPage = oddPageDocument.NumberOfPages;
+                            break;
+                        case (true):
+                            if (evenPageDocument.NumberOfPages < oddPageDocument.NumberOfPages)
+                                lastPage = evenPageDocument.NumberOfPages;
+                            else
+                                lastPage = oddPageDocument.NumberOfPages;
+                            break;
+                    }
+
+                    try
+                    {
+                        mergedOutputDocument = new iTextSharpText.Document();
+                        mergedOutputFile = new iTextSharpPDF.PdfCopy(mergedOutputDocument, new FileStream(outputFile, FileMode.Create, FileAccess.ReadWrite));
+                        mergedOutputDocument.Open();
+                        for (int loop = 1; loop <= lastPage; loop++)
+                        {
+                            // Extract and merge odd page
+                            if (loop <= oddPageDocument.NumberOfPages)
+                            {
+                                mergedOutputDocument.SetPageSize(oddPageDocument.GetPageSizeWithRotation(loop));
+                                mergedOutputFile.AddPage(mergedOutputFile.GetImportedPage(oddPageDocument, loop));
+                            }
+                            // Extract and merge even page
+                            if (loop <= evenPageDocument.NumberOfPages)
+                            {
+                                mergedOutputDocument.SetPageSize(evenPageDocument.GetPageSizeWithRotation(loop));
+                                mergedOutputFile.AddPage(mergedOutputFile.GetImportedPage(evenPageDocument, loop));
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (mergedOutputDocument != null && mergedOutputDocument.IsOpen()) mergedOutputDocument.Close();
+                        if (mergedOutputFile != null)
+                        {
+                            mergedOutputFile.Close();
+                            mergedOutputFile.FreeReader(oddPageDocument);
+                            mergedOutputFile.FreeReader(evenPageDocument);
+                        }
+                    }
+                }
+                catch
+                {
+                    try
+                    {
+                        File.Delete(outputFile);
+                    }
+                    catch { }
+                    throw;
+                }
+                finally
+                {
+                    try
+                    {
+                        if (oddPageDocument != null) oddPageDocument.Close();
+                        oddPageDocument = null;
+                    }
+                    catch { }
+                    try
+                    {
+                        if (evenPageDocument != null) evenPageDocument.Close();
+                        evenPageDocument = null;
+                    }
+                    catch { }
+                }
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(oddPageFile) || String.IsNullOrWhiteSpace(oddPageFile)) throw new ArgumentNullException("oddPageFile", exceptionArgumentNullOrEmptyString);
+                if (String.IsNullOrEmpty(evenPageFile) || String.IsNullOrWhiteSpace(evenPageFile)) throw new ArgumentNullException("evenPageFile", exceptionArgumentNullOrEmptyString);
+                if (String.IsNullOrEmpty(outputFile) || String.IsNullOrWhiteSpace(outputFile)) throw new ArgumentNullException("outputFile", exceptionArgumentNullOrEmptyString);
+            }
+        }
+
+        /// <summary>
         /// Extracts a range of pages from a PDF file,
         /// and writes them to a new file.
         /// </summary>
