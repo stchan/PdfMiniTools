@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WarSetup-Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" projectRunAfterInstall="true" mainTargetApp="ID_c05936e3_43d0_492f_b5dc_e6e216585d5e" nextUniqueId="1550" projectName="PdfMiniTools" projectUuid="293e3dbc-450c-4cdf-9d86-29635351e7e7" projectUpgradeUuid="82eb3829-537a-4b72-83e8-4760e55685f5" projectVersion="1.0.0" projectOrganization="Black Telescope Workshop" projectFromWindowsVersion="Windows XP SP 2" projectMustBeAdministratorToInstall="false" project64BitTarget="false" projectTargetDirectory="C:\Code\PdfMiniTools\Installer" projectTargetName="PdfMiniTools" projectType="0" projectUserInterface="WixUI_InstallDir">
+<WarSetup-Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" projectRunAfterInstall="true" mainTargetApp="ID_c05936e3_43d0_492f_b5dc_e6e216585d5e" nextUniqueId="1552" projectName="PdfMiniTools" projectUuid="293e3dbc-450c-4cdf-9d86-29635351e7e7" projectUpgradeUuid="82eb3829-537a-4b72-83e8-4760e55685f5" projectVersion="1.1.0" projectOrganization="Black Telescope Workshop" projectFromWindowsVersion="Windows XP SP 2" projectMustBeAdministratorToInstall="false" project64BitTarget="false" projectTargetDirectory="C:\Code\PdfMiniTools\Installer" projectTargetName="PdfMiniTools" projectType="0" projectUserInterface="WixUI_InstallDir">
   <LicencePaths>
     <string>C:\Program Files (x86)\Jgaa's Internet\War Setup\Licenses</string>
     <string>\.</string>
@@ -68,8 +68,14 @@
         <addToCreateFolder>false</addToCreateFolder>
       </components>
       <components componentId="ID1549" componentGuid="aaa3ccd3-ba2d-4945-b915-84c8fb365a32">
-        <componentFiles fileId="ID_c05936e3_43d0_492f_b5dc_e6e216585d5e" srcName="PdfMiniToolsShell.bat" srcDirectory="..\common" dstName="PdfMiniToolsShell.bat" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="PdfMiniToolsShell" shortcutInProgramFilesMenu="false" shortcutOnDesktop="true" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <componentFiles fileId="ID_c05936e3_43d0_492f_b5dc_e6e216585d5e" srcName="PdfMiniToolsShell.bat" srcDirectory="..\common" dstName="PdfMiniToolsShell.bat" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="PdfMiniToolsShell" shortcutInProgramFilesMenu="true" shortcutOnDesktop="true" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="[APPLICATIONFOLDER]" shortcutCommandArguments="" shortcutDescription="">
           <service StartWhenInstalled="true" Remove="both" id="ID1548" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+        </componentFiles>
+        <addToCreateFolder>false</addToCreateFolder>
+      </components>
+      <components componentId="ID1551" componentGuid="acd41609-5a59-44a9-8ee8-74c9c4f6f159">
+        <componentFiles fileId="ID_420b1add_4aa8_4381_ac9a_4945cb09094f" srcName="PdfEvenOddMerge.exe" srcDirectory="..\PdfEvenOddMerge\bin\Release" dstName="PdfEvenOddMerge.exe" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="PdfEvenOddMerge" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+          <service StartWhenInstalled="true" Remove="both" id="ID1550" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
         </componentFiles>
         <addToCreateFolder>false</addToCreateFolder>
       </components>
