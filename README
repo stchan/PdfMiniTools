@@ -4,6 +4,9 @@ PdfMiniTools is a set of small utilities for working with PDF files:
 
 	pdfInfo - displays information on the properties and field content of a PDF file.
 	pdfCat - joins two or more PDF files into a single file.
+	pdfEvenOddMerge - joins a file containing only odd numbered pages with
+				   a file containing only even numbered pages (useful
+				   for combining output from single sided scanners).
 	pdfExtract - extracts pages from a PDF file into a new file.
 	pdfSplit - splits a PDF file contents into two or more files.
 
@@ -66,6 +69,27 @@ Example:
 	
 Concatenates the contents of file1.pdf, file2.pdf, and file3.pdf into
 the new file joinedfile.pdf
+
+Usage (pdfEvenOddMerge):
+
+         pdfevenoddmerge [-s] oddfile evenfile outputfile
+
+Example 1:
+        
+	pdfevenoddmerge file1.pdf file2.pdf combined.pdf
+
+Creates the file combined.pdf, with odd pages from file1.pdf,
+and even pages from file2.pdf.
+
+Example 2:
+
+	pdfevenoddmerge -s file1.pdf file2.pdf combined.pdf
+
+Same as Example 1, except any extra pages will be skipped.
+(ie if file1.pdf contains 10 pages, and file2.pdf contains 12, 
+pages 11 and 12 in file2.pdf will be ignored.
+
+
 
 Usage (pdfExtract):
 
