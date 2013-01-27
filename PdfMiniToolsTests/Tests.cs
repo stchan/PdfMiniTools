@@ -68,6 +68,24 @@ namespace PdfMiniToolsTests
         }
 
         [Test]
+        public void TestEvenOddMerge()
+        {
+            PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
+            coreTest.EvenOddMerge(@"..\..\oddpagefile.pdf",
+                                  @"..\..\evenpagefile.pdf",
+                                  @"..\..\mergedoutput1.pdf",
+                                  false);
+            Dictionary<String, String> mergedFileInfo = coreTest.RetrieveBasicProperties(@"..\..\mergedoutput1.pdf");
+            int pageCount = Convert.ToInt32(mergedFileInfo["Page Count"]);
+            Assert.IsTrue(ArePagesIdentical(@"..\..\mergedcontrol.pdf", 1, pageCount,
+                                            @"..\..\mergedoutput1.pdf", 1));
+
+
+
+            File.Delete(@"..\..\mergedoutput1.pdf");
+        }
+
+        [Test]
         public void TestFileHasValidPDFStructure()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
