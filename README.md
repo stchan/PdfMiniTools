@@ -1,17 +1,17 @@
 **PdfMiniTools** is a set of small utilities for working with PDF files:
 
-        pdfInfo - displays information on the properties and field content of a
+    -   pdfInfo - displays information on the properties and field content of a
         PDF file.
 
-        pdfCat - joins two or more PDF files into a single file.
+    -   pdfCat - joins two or more PDF files into a single file.
 
-        pdfEvenOddMerge - joins a file containing only odd numbered pages with a
+    -   pdfEvenOddMerge - joins a file containing only odd numbered pages with a
         file containing only even numbered pages.  (useful for combining output
         from single sided scanners).
 
-        pdfExtract - extracts pages from a PDF file into a new file.
+    -   pdfExtract - extracts pages from a PDF file into a new file.
 
-        pdfSplit - splits a PDF file contents into two or more files.
+    -   pdfSplit - splits a PDF file contents into two or more files.
 
 
 
@@ -128,8 +128,8 @@ Example 1:
         pdfevenoddmerge file1.pdf file2.pdf combined.pdf
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creates the file combined.pdf, with odd pages from file1.pdf, and even pages
-from file2.pdf.
+Creates the file *combined.pdf*, with odd pages from *file1.pdf*, and even pages
+from *file2.pdf*.
 
 
 
@@ -139,9 +139,9 @@ Example 2:
         pdfevenoddmerge -s file1.pdf file2.pdf combined.pdf
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Same as Example 1, except any extra pages will be skipped. (ie if file1.pdf
-contains 10 pages, and file2.pdf contains 12,  pages 11 and 12 in file2.pdf will
-be ignored.
+Same as Example 1, except any extra pages will be skipped. (ie if *file1.pdf*
+contains 10 pages, and *file2.pdf* contains 12,  pages 11 and 12 in *file2.pdf*
+will be ignored.
 
 
 
@@ -166,8 +166,8 @@ Example:
         pdfExtract -e 12,16,23 inputfile.pdf
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Extracts pages 12,16, and 23 from inputfile.pdf. Output filenames will be
-inputfile_1.pdf, inputfile_2.pdf, and inputfile_3.pdf.
+Extracts pages 12,16, and 23 from *inputfile.pdf.* Output filenames will be
+*inputfile_1.pdf*, *inputfile_2.pdf*, and *inputfile_3.pdf*.
 
 
 
@@ -177,8 +177,8 @@ Example 2:
         pdfExtract -e 10-16,23,31 inputfile.pdf
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Extracts pages 10-16, 23, and 31 from inputfile.pdf. Output filenames will be
-inputfile_1.pdf, inputfile2.pdf, and inputfile3.pdf.
+Extracts pages 10-16, 23, and 31 from *inputfile.pdf*. Output filenames will be
+*inputfile_1.pdf*, *inputfile2.pdf*, and *inputfile3.pdf*.
 
 
 
@@ -188,7 +188,7 @@ Example 3:
         pdfExtract -e 12 -p output inputfile.pdf  
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Extracts page 12 from inputfile.pdf. Output filename will be output1.pdf.
+Extracts page 12 from *inputfile.pdf*. Output filename will be *output1.pdf*.
 
 
 
@@ -212,9 +212,9 @@ Example:
         pdfSplit -s 11,21 -p splitfile file1.pdf  
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Splits file1.pdf at pages 11, and 21 into three files: splitfile01.pdf (contains
-pages 1-10) splitfile02.pdf (contains pages 11-20) splitfile03.pdf (contains all
-remaining pages)
+Splits *file1.pdf* at pages 11, and 21 into three files: *splitfile01.pdf*
+(contains pages 1-10) *splitfile02.pdf* (contains pages 11-20) *splitfile03.pdf*
+(contains all remaining pages)
 
 
 
@@ -224,5 +224,6 @@ Example 2:
          pdfSplit -a file.pdf   
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Splits file.pdf at every page. Output files would be: file01.pdf (page 1)
-file02.pdf (page 2) file03.pdf (page 3) . . fileXX.pdf (page XX - last page)
+Splits *file.pdf* at every page. Output files would be: *file01.pdf* (page 1)
+*file02.pdf* (page 2) *file03.pdf* (page 3) . . *fileXX.pdf* (page XX - last
+page)
