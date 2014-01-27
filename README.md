@@ -39,7 +39,7 @@ used/included:
 
     2.  [Spyglass][5]
 
-[5]: < http://openclipart.org/detail/28059/spyglass1-by-crimperman>
+[5]: <http://openclipart.org/detail/28059/spyglass1-by-crimperman>
 
 [4]: <http://openclipart.org/detail/139579/amateur-astronomer-by-sunking2>
 
