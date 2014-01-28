@@ -1,1 +1,1 @@
-@start cmd /k "set Path=%CD%;%Path%;"
+@start "PdfMiniTools" cmd /k "set Path=%CD%;%Path%;"
