@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="PdfMiniTools" Language="1033" Version="1.1.0.0" 
+           Manufacturer="Black Telescope Workshop" UpgradeCode="409ff0d1-1c3a-4f8d-8a5a-350705977809">
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" 
+      Platform="x64"/>
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="AdobeIcon.ico" SourceFile="..\common\acroread.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AdobeIcon.ico" />
+
+    <!-- .Net 4.0 Prerequisite -->
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    </Condition>
+    <!-- OS version prerequisite -->
+    <Condition Message="64-bit Windows Vista SP2, Server 2008 SP2, or later are required.">
+      <![CDATA[Installed OR ((VersionNT >= 600 AND ServicePackLevel >= 2 AND VersionNT64)
+                         OR (VersionNT >= 601 AND VersionNT64))]]>
+    </Condition>
+
+    <Feature Id="ProductFeature" Title="PdfMiniToolsInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="PdfMiniTools" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+            <Component Id="CommandLine.dll" Guid="d07818df-00d8-46d2-ad7b-2143fa60407d">
+              <File Id="ID_8b734abf_beb3_4895_856e_cdf922dca6aa" 
+                    Source="..\lib\CommandLine.dll" DiskId="1" Name="CommandLine.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="itextsharp.dll" Guid="f961976e-785c-420a-9e10-c3730f87ad57">
+              <File Id="ID_534bf304_8d9d_4b10_bc83_027bd1b92e50" 
+                    Source="..\lib\itextsharp.dll" DiskId="1" Name="itextsharp.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfMiniToolsShell.bat" Guid="{9A58EEAA-F0CA-4830-9FD1-90AFE5BDE221}">
+              <File Id="PdfMiniToolsShell.bat"
+                    Source="..\common\PdfMiniToolsShell.bat" Name="PdfMiniToolsShell.bat" KeyPath="yes" >
+                  <Shortcut Id="PdfMiniToolsDesktopShortcut"
+                      Directory="DesktopFolder"
+                      Name="PdfMiniTools"
+                      Description="PdfMiniTools shell with path setting"
+                      WorkingDirectory="INSTALLFOLDER"
+                      IconIndex="0"
+                      Icon="cmd.exe"
+                      Advertise="yes" >
+                    <Icon Id="cmd.exe" SourceFile="$(env.ComSpec)"/>
+                  </Shortcut>                
+              
+              </File>
+            </Component>
+            <Component Id="PdfCat.exe" Guid="*">
+              <File Id="$(var.PdfCat.TargetFileName)" Source="$(var.PdfCat.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfCat.pdb" Guid="*">
+              <File Id="$(var.PdfCat.TargetName).pdb" Source="$(var.PdfCat.TargetDir)$(var.PdfCat.TargetName).pdb" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfEvenOddMerge.exe" Guid="*">
+              <File Id="$(var.PdfEvenOddMerge.TargetFileName)" Source="$(var.PdfEvenOddMerge.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfEvenOddMerge.pdb" Guid="*">
+              <File Id="$(var.PdfEvenOddMerge.TargetName).pdb" Source="$(var.PdfEvenOddMerge.TargetDir)$(var.PdfEvenOddMerge.TargetName).pdb" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfExtract.exe" Guid="*">
+              <File Id="$(var.PdfExtract.TargetFileName)" Source="$(var.PdfExtract.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfExtract.pdb" Guid="*">
+              <File Id="$(var.PdfExtract.TargetName).pdb" Source="$(var.PdfExtract.TargetDir)$(var.PdfExtract.TargetName).pdb" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfInfo.exe" Guid="*">
+              <File Id="$(var.PdfInfo.TargetFileName)" Source="$(var.PdfInfo.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfInfo.pdb" Guid="*">
+              <File Id="$(var.PdfInfo.TargetName).pdb" Source="$(var.PdfInfo.TargetDir)$(var.PdfInfo.TargetName).pdb" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfMiniToolsCore.exe" Guid="*">
+              <File Id="$(var.PdfMiniToolsCore.TargetFileName)" Source="$(var.PdfMiniToolsCore.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfMiniToolsCore.pdb" Guid="*">
+              <File Id="$(var.PdfMiniToolsCore.TargetName).pdb" Source="$(var.PdfMiniToolsCore.TargetDir)$(var.PdfMiniToolsCore.TargetName).pdb" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfSplit.exe" Guid="*">
+              <File Id="$(var.PdfSplit.TargetFileName)" Source="$(var.PdfSplit.TargetPath)" KeyPath="yes" />
+            </Component>
+            <Component Id="PdfSplit.pdb" Guid="*">
+              <File Id="$(var.PdfSplit.TargetName).pdb" Source="$(var.PdfSplit.TargetDir)$(var.PdfSplit.TargetName).pdb" KeyPath="yes" />
+            </Component>
+    
+		</ComponentGroup>
+	</Fragment>
+</Wix>
