@@ -17,7 +17,7 @@
 
 Version 4.0 of the .Net framework is required.
 
-Visual C# 2010 Express (with SP1), NUnit 2.5, Warsetup 3.13, and Wix 3.5 were
+Visual Studio 2013 Community Edition, and Wix 3.9 were
 used to build, and test the project. The following third party components are
 used/included:
 
