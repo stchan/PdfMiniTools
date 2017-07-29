@@ -1,25 +1,15 @@
-**PdfMiniTools** is a set of small utilities for working with PDF files:
-
-    -   pdfInfo - displays information on the properties and field content of a
-        PDF file.
-
-    -   pdfCat - joins two or more PDF files into a single file.
-
-    -   pdfEvenOddMerge - joins a file containing only odd numbered pages with a
-        file containing only even numbered pages.  (useful for combining output
-        from single sided scanners).
-
-    -   pdfExtract - extracts pages from a PDF file into a new file.
-
-    -   pdfSplit - splits a PDF file contents into two or more files.
+**PdfMiniTools** is a set of small command line  utilities for working with PDF files:
+- pdfInfo - displays properties and form field content of a PDF file.
+- pdfCat - joins two or more PDF files into a new file 
+- pdfEvenOddMerge - creates a new PDF file by combining the contents of a PDF file containing only odd numbered pages with a PDF file containing only even numbered pages. (useful for combining output from single sided scanners).
+- pdfExtract - extracts pages from a PDF file into a new file.
+- pdfSplit - splits a PDF file's contents into two or more new files.
 
 
 
 Version 4.0 of the .Net framework is required.
 
-Visual Studio 2013 Community Edition, and Wix 3.9 were
-used to build, and test the project. The following third party components are
-used/included:
+Visual Studio 2013 Community Edition, and Wix 3.9 were used to build, and test the project. The following third party components are used/included:
 
 -   CommandLine Parser library (v1.8 stable) - [link][1]
 
@@ -45,148 +35,113 @@ used/included:
 
 
 
-iTextSharp 4.1.6 was used instead of a newer version because of its less
-restrictive license - using a newer version would mean PdfMiniTools could not be
-integrated into commercial/proprietary applications.
+iTextSharp 4.1.6 was used because of its license - later versions use the more restrictive AGPL.
 
 
 
 **Usage (pdfInfo):**
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
         pdfInfo [-acfi] file
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        
 Options:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     -a, --all	 Show all available information (equivalent to -fi). 
     -c, --csv	 Display results as comma separated values (CSV). 
     -f, --fields Show form fields. 
     -i, --info	 Show basic PDF info. This is the default.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Example:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
         pdfInfo file.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Shows basic PDF info, such as page count, encryption, PDF version, etc.
-Equivalent to "pdfInfo -i file.pdf"
+        
+Shows basic PDF info, such as page count, encryption, PDF version, etc. Equivalent to "pdfInfo -i file.pdf"
 
 
 
 Example 2:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        pdfInfo -f file.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Shows the PDF's form fields, and their values. PDF files that do not contain
-fill-in fields are unlikely to have any form fields to display.
+        pdfInfo -f file.pdf
+
+
+Shows the PDF's form fields, and their values. PDF files that do not contain fill-in fields are unlikely to have any form fields to display.
 
 
 
 Example 3:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfInfo -ac file.pdf  
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Will show basic PDF info, and any form fields, as comma separated values.
-Equivalent to "pdfInfo -cfi file.pdf"
+Will show basic PDF info, and any form fields, as comma separated values. Equivalent to "pdfInfo -cfi file.pdf"
 
 
 
 **Usage (pdfCat):**
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         pdfCat file1 file2 [file3...] outputfile
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Example:
-
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfCat file1.pdf file2.pdf file3.pdf joinedfile.pdf  
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Concatenates the contents of file1.pdf, file2.pdf, and file3.pdf into the new
-file joinedfile.pdf
+Concatenates the contents of file1.pdf, file2.pdf, and file3.pdf into the new file joinedfile.pdf
 
 
 
 **Usage (pdfEvenOddMerge):**
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         pdfevenoddmerge [-s] oddfile evenfile outputfile
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Example 1:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfevenoddmerge file1.pdf file2.pdf combined.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creates the file *combined.pdf*, with odd pages from *file1.pdf*, and even pages
-from *file2.pdf*.
+Creates the file *combined.pdf*, with odd pages from *file1.pdf*, and even pages from *file2.pdf*.
 
 
 
 Example 2:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfevenoddmerge -s file1.pdf file2.pdf combined.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Same as Example 1, except any extra pages will be skipped. (ie if *file1.pdf*
-contains 10 pages, and *file2.pdf* contains 12,  pages 11 and 12 in *file2.pdf*
-will be ignored.
+Same as Example 1, except any extra pages will be skipped. (ie if *file1.pdf* contains 10 pages, and *file2.pdf* contains 12,  pages 11 and 12 in *file2.pdf* will be ignored.
 
 
 
 **Usage (pdfExtract):**
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfExtract -e {page1|startpage1-endpage1}[,{page2|startpage2-endpage2}] [-p prefix] inputfile
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Options:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         -e, --extract Specifies the pages to extract. Required. 
         -p, --prefix  Set the output file(s) prefix. Default is the input filename. Optional.
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
 Example:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfExtract -e 12,16,23 inputfile.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Extracts pages 12,16, and 23 from *inputfile.pdf.* Output filenames will be
-*inputfile_1.pdf*, *inputfile_2.pdf*, and *inputfile_3.pdf*.
+Extracts pages 12,16, and 23 from *inputfile.pdf.* Output filenames will be *inputfile_1.pdf*, *inputfile_2.pdf*, and *inputfile_3.pdf*.
 
 
 
 Example 2:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfExtract -e 10-16,23,31 inputfile.pdf
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Extracts pages 10-16, 23, and 31 from *inputfile.pdf*. Output filenames will be
-*inputfile_1.pdf*, *inputfile2.pdf*, and *inputfile3.pdf*.
+Extracts pages 10-16, 23, and 31 from *inputfile.pdf*. Output filenames will be *inputfile_1.pdf*, *inputfile2.pdf*, and *inputfile3.pdf*.
 
 
 
 Example 3:
-
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfExtract -e 12 -p output inputfile.pdf  
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Extracts page 12 from *inputfile.pdf*. Output filename will be *output1.pdf*.
 
@@ -194,36 +149,32 @@ Extracts page 12 from *inputfile.pdf*. Output filename will be *output1.pdf*.
 
 **Usage (pdfSplit):**
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfSplit -{a|s} [page1,page2] [-p prefix] file
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Options:
-
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         -a, --allpages Split after every page. 
         -s, --splits   Pages to split at, separated by a comma. 
         -p, --prefix   Set the output files prefix. Default is the input filename. Optional.
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Example:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         pdfSplit -s 11,21 -p splitfile file1.pdf  
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Splits *file1.pdf* at pages 11, and 21 into three files: *splitfile01.pdf*
-(contains pages 1-10) *splitfile02.pdf* (contains pages 11-20) *splitfile03.pdf*
-(contains all remaining pages)
+Splits *file1.pdf* at pages 11, and 21 into three files:
+*splitfile01.pdf* (contains pages 1-10) 
+*splitfile02.pdf* (contains pages 11-20) 
+*splitfile03.pdf* (contains all remaining pages)
 
 
 
 Example 2:
 
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          pdfSplit -a file.pdf   
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Splits *file.pdf* at every page. Output files would be: *file01.pdf* (page 1)
-*file02.pdf* (page 2) *file03.pdf* (page 3) . . *fileXX.pdf* (page XX - last
-page)
+Splits *file.pdf* at every page. Output files would be:
+*file01.pdf* (page 1)
+*file02.pdf* (page 2) 
+*file03.pdf* (page 3) 
+. 
+. 
+*fileXX.pdf* (page XX - last page)
