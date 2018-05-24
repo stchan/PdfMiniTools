@@ -6,36 +6,9 @@
 - pdfSplit - splits a PDF file's contents into two or more new files.
 
 
-
+**Requirements**<br/>
 Version 4.0 of the .Net framework is required.
 
-Visual Studio 2013 Community Edition, and Wix 3.9 were used to build, and test the project. The following third party components are used/included:
-
--   CommandLine Parser library (v1.8 stable) - [link][1]
-
-[1]: <<http://commandline.codeplex.com/\>>
-
--   iTextSharp (v4.1.6 - last LGPL version) - [link][2]
-
-[2]: <http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/>
-
--   PDF icon from open icon library (LGPL ) - [link][3]
-
-[3]: <http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png>
-
--   Installer graphics from Open Clip Art (public domain):
-
-    1.  [Amateur Astronomer][4]
-
-    2.  [Spyglass][5]
-
-[5]: <http://openclipart.org/detail/28059/spyglass1-by-crimperman>
-
-[4]: <http://openclipart.org/detail/139579/amateur-astronomer-by-sunking2>
-
-
-
-iTextSharp 4.1.6 was used because of its license - later versions use the more restrictive AGPL.
 
 
 
@@ -178,3 +151,26 @@ Splits *file.pdf* at every page. Output files would be:
 . 
 . 
 *fileXX.pdf* (page XX - last page)
+
+
+**Acknowledgements**
+
+The following third party components are used/included:
+-   CommandLine Parser library (v1.8 stable) - [link][1]
+-   iTextSharp (v4.1.6 - last LGPL version) - [link][2]
+-   PDF icon from open icon library (LGPL ) - [link][3]
+-   Installer graphics from Open Clip Art (public domain):<br/>
+&nbsp; - [Amateur Astronomer][4]<br/>
+&nbsp; - [Spyglass][5]  
+
+[1]: <http://commandline.codeplex.com/>
+
+[5]: <http://openclipart.org/detail/28059/spyglass1-by-crimperman>
+
+[4]: <http://openclipart.org/detail/139579/amateur-astronomer-by-sunking2>
+
+[3]: <http://openiconlibrary.sourceforge.net/gallery2/?./Icons/apps/acroread.png>
+
+[2]: <http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/>
+
+iTextSharp 4.1.6 is used because of its license - later versions use the more restrictive AGPL.
