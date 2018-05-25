@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="PdfMiniTools" Language="1033" Version="1.1.0.0" 
+	<Product Id="{BD65D578-344F-44EB-AE72-FA0CABD4FDEE}" Name="PdfMiniTools" Language="1033" Version="1.1.1.0" 
            Manufacturer="Black Telescope Workshop" UpgradeCode="409ff0d1-1c3a-4f8d-8a5a-350705977809">
 		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" 
       Platform="x64"/>
