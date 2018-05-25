@@ -3,7 +3,7 @@
 - pdfCat - joins two or more PDF files into a new file 
 - pdfEvenOddMerge - creates a new PDF file by combining the contents of a PDF file containing only odd numbered pages with a PDF file containing only even numbered pages. (useful for combining output from single sided scanners).
 - pdfExtract - extracts pages from a PDF file into a new file.
-- pdfSplit - splits a PDF file's contents into two or more new files.
+- pdfSplit - extracts a PDF file's contents into two or more new files.
 
 
 **Requirements**<br/>
