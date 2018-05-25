@@ -5,6 +5,8 @@
 - pdfExtract - extracts pages from a PDF file into a new file.
 - pdfSplit - extracts a PDF file's contents into two or more new files.
 
+**Installation**<br/>
+Check the [releases](<https://github.com/stchan/PdfMiniTools/releases>) page for this project to download a prebuilt MSI package.
 
 **Requirements**<br/>
 Version 4.0 of the .Net framework is required.
