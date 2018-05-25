@@ -171,24 +171,21 @@ namespace PdfMiniToolsCore
             {
                 var documentReader = new iTextSharpPDF.PdfReader(new iTextSharpPDF.RandomAccessFileOrArray(filename), null);
                 IDictionaryEnumerator fieldsEnumerator = documentReader.AcroFields.Fields.GetEnumerator();
-                while (fieldsEnumerator.MoveNext())
+                ICollection fieldKeyValues = documentReader.AcroFields.Fields.Keys;
+                foreach (String keyValue in fieldKeyValues)
                 {
-                    String pdfInfoValue = null;
+                    String pdfInfoValue = documentReader.AcroFields.GetField(keyValue.ToString());
                     DateTimeOffset? pdfInfoDate;
-                    if (fieldsEnumerator.Value != null && !String.IsNullOrWhiteSpace(fieldsEnumerator.Value.ToString()) &&
-                                                          !String.IsNullOrEmpty(fieldsEnumerator.Value.ToString()))
+                    if (pdfInfoValue != null && !String.IsNullOrWhiteSpace(pdfInfoValue) &&
+                                                          !String.IsNullOrEmpty(pdfInfoValue))
                     {
-                        pdfInfoDate = TryParsePDFDateTime(fieldsEnumerator.Value.ToString());
+                        pdfInfoDate = TryParsePDFDateTime(pdfInfoValue);
                         if (pdfInfoDate.HasValue)
                         {
                             pdfInfoValue = String.Format("{0:F}", ((DateTimeOffset)pdfInfoDate).DateTime);
                         }
-                        else
-                        {
-                            pdfInfoValue = fieldsEnumerator.Value as String;
-                        }
                     }
-                    fieldsData.Add(fieldsEnumerator.Key as String, pdfInfoValue);
+                    fieldsData.Add(keyValue, pdfInfoValue);
 
                 }
             }
