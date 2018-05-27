@@ -8,11 +8,11 @@ using System.Text;
 using iTextSharpText = iTextSharp.text;
 using iTextSharpPDF = iTextSharp.text.pdf;
 
-using NUnit.Framework;
+//using NUnit.Framework;
+using Xunit;
 
 namespace PdfMiniToolsTests
 {
-    [TestFixture]
     public class Tests
     {
         #region Ctor
@@ -20,7 +20,7 @@ namespace PdfMiniToolsTests
         {}
         #endregion
 
-        [Test]
+        [Fact]
         public void TestConcatenatePDFFiles()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -29,12 +29,12 @@ namespace PdfMiniToolsTests
             coreTest.ConcatenatePDFFiles(inputFiles, outputFile);
         }
 
-        [Test]
+        [Fact]
         public void TestExtractPages_GoldenPath()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             coreTest.ExtractPDFPages(@"..\..\Heart_of_Darkness_NT.pdf", @"..\..\Heart_of_Darkness_66_101.pdf", 66, 101);
-            Assert.IsTrue(ArePagesIdentical(@"..\..\Heart_of_Darkness_66_101.pdf", 1, 36, @"..\..\Heart_of_Darkness_NT.pdf", 66));
+            Assert.True(ArePagesIdentical(@"..\..\Heart_of_Darkness_66_101.pdf", 1, 36, @"..\..\Heart_of_Darkness_NT.pdf", 66));
         }
 
         private bool ArePagesIdentical(String firstPdf, int firstStartPage, int firstLastPage,
@@ -67,7 +67,7 @@ namespace PdfMiniToolsTests
             return pagesAreIdentical;
         }
 
-        [Test]
+        [Fact]
         public void TestEvenOddMerge()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
@@ -77,7 +77,7 @@ namespace PdfMiniToolsTests
                                   false);
             Dictionary<String, String> mergedFileInfo = coreTest.RetrieveBasicProperties(@"..\..\mergedoutput1.pdf");
             int pageCount = Convert.ToInt32(mergedFileInfo["Page Count"]);
-            Assert.IsTrue(ArePagesIdentical(@"..\..\mergedcontrol.pdf", 1, pageCount,
+            Assert.True(ArePagesIdentical(@"..\..\mergedcontrol.pdf", 1, pageCount,
                                             @"..\..\mergedoutput1.pdf", 1));
 
 
@@ -85,79 +85,79 @@ namespace PdfMiniToolsTests
             File.Delete(@"..\..\mergedoutput1.pdf");
         }
 
-        [Test]
+        [Fact]
         public void TestFileHasValidPDFStructure()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
-            Assert.IsTrue(coreTest.FileHasValidPDFStructure(@"..\..\Heart_of_Darkness_NT.pdf"));
-            Assert.IsFalse(coreTest.FileHasValidPDFStructure(@"..\..\acroread.png"));
+            Assert.True(coreTest.FileHasValidPDFStructure(@"..\..\Heart_of_Darkness_NT.pdf"));
+            Assert.False(coreTest.FileHasValidPDFStructure(@"..\..\acroread.png"));
 
         }
 
-        [Test]
+        [Fact]
         public void TestParsePDFDateTime()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             // Valid pdf datetime string
-            Assert.IsNotNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'"));
             // Valid pdf datetime string
-            Assert.IsNotNull(coreTest.TryParsePDFDateTime("D:19991120202635-10'00'"));
+            Assert.NotNull(coreTest.TryParsePDFDateTime("D:19991120202635-10'00'"));
             // Too short
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615+10"));
             // Too long
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'59"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615+10'00'59"));
             // Invalid month
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20021920162615+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20021920162615+10'00'"));
             // Invalid day
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020900162615+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020900162615+10'00'"));
             // Invalid hour
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920292615+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920292615+10'00'"));
             // Invalid minute
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920166015+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920166015+10'00'"));
             // Invalid second
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162678+10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162678+10'00'"));
             // Invalid timezone indicator
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615U10'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615U10'00'"));
             // Invalid offset hours
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+29'00'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615+29'00'"));
             // Invalid offset minutes
-            Assert.IsNull(coreTest.TryParsePDFDateTime("D:20020920162615+10'63'"));
+            Assert.Null(coreTest.TryParsePDFDateTime("D:20020920162615+10'63'"));
             // Null argument
             Assert.Throws<ArgumentNullException>(delegate { coreTest.TryParsePDFDateTime(null); });
         }
 
-        [Test]
+        [Fact]
         public void TestRetrieveBasicProperties()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             Dictionary<String, String> basicPropertiesDictionary = coreTest.RetrieveBasicProperties(@"..\..\Heart_of_Darkness_NT.pdf");
-            Assert.IsTrue(basicPropertiesDictionary.Count == 4);
-            Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Page Count"));
-            Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Encrypted"));
-            Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Pdf Version"));
-            Assert.IsTrue(basicPropertiesDictionary.ContainsKey("Rebuilt"));
+            Assert.True(basicPropertiesDictionary.Count == 4);
+            Assert.True(basicPropertiesDictionary.ContainsKey("Page Count"));
+            Assert.True(basicPropertiesDictionary.ContainsKey("Encrypted"));
+            Assert.True(basicPropertiesDictionary.ContainsKey("Pdf Version"));
+            Assert.True(basicPropertiesDictionary.ContainsKey("Rebuilt"));
 
         }
 
-        [Test]
+        [Fact]
         public void TestRetrieveAcroFieldsData()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             Dictionary<String, String> acroFieldsDataDictionary = coreTest.RetrieveAcroFieldsData(@"..\..\iTextinAction.pdf");
             //Dictionary<String, String> acroFieldsDataDictionary = coreTest.RetrieveAcroFieldsData(@"..\..\NYCBLA-PI1.pdf");
-            Assert.IsTrue(acroFieldsDataDictionary != null);
+            Assert.True(acroFieldsDataDictionary != null);
         }
 
-        [Test]
+        [Fact]
         public void TestRetrieveInfo()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
             Dictionary<String, String> pdfInfo = coreTest.RetrieveInfo(@"..\..\iTextinAction.pdf");
             //Dictionary<String, String> pdfInfo = coreTest.RetrieveInfo(@"..\..\Heart_of_Darkness_NT.pdf");
-            Assert.IsTrue(pdfInfo.Count > 0);
+            Assert.True(pdfInfo.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public void TestSplitPDF()
         {
             PdfMiniToolsCore.CoreTools coreTest = new PdfMiniToolsCore.CoreTools();
