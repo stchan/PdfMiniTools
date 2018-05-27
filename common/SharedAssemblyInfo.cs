@@ -8,9 +8,9 @@ using System.Security.Permissions;
 // associated with an assembly.
 [assembly: AssemblyCompany("Black Telescope Workshop")]
 [assembly: AssemblyProduct("PdfMiniTools")]
-[assembly: AssemblyCopyright("Copyright © Sherman Chan 2012/2013")]
+[assembly: AssemblyCopyright("Copyright © Sherman Chan 2012-2018")]
 [assembly: AssemblyTrademark("")]
 
 
 
-[assembly: AssemblyVersion("1.1.1.*")]
+[assembly: AssemblyVersion("1.2.0.*")]
