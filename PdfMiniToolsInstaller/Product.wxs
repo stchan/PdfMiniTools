@@ -14,7 +14,7 @@
     <!-- .Net 4.6.2 Prerequisite -->
     <PropertyRef Id="WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED"/>
     <Condition Message="This application requires .NET Framework 4.6.2. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED]]>
     </Condition>
     <!-- OS version prerequisite -->
     <Condition Message="64-bit Windows 7, Server 2008 SP2, or later are required.">
