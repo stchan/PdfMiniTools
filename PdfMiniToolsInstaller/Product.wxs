@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx ="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="{399705B4-01DB-4843-A492-420E75859BAE}" Name="PdfMiniTools" Language="1033" Version="1.2.0.0"
-           Manufacturer="Black Telescope Workshop" UpgradeCode="409ff0d1-1c3a-4f8d-8a5a-350705977809">
+  <Product Id="{0639B3CE-178A-4763-9AC5-521EF16ED890}" Name="PdfMiniTools" Language="1033" Version="1.2.1.0"
+           Manufacturer="Black Telescope Workshop" UpgradeCode="6D324AAC-777B-4242-B949-ADCA44CCE8CF">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"
       Platform="x64"/>
 
