@@ -13,4 +13,4 @@ using System.Security.Permissions;
 
 
 
-[assembly: AssemblyVersion("1.2.0.*")]
+[assembly: AssemblyVersion("1.2.1.*")]
