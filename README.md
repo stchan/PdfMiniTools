@@ -1,3 +1,10 @@
+**THIS PROJECT IS ARCHIVED**
+No further development or maintenance will be done. There are plenty of well maintained, and full featured tools that provide more functionality. I'd recommend having a look at either qpdf or PdfBox:
+
+https://github.com/qpdf/qpdf
+https://pdfbox.apache.org/
+
+
 **PdfMiniTools** is a set of small command line  utilities for working with PDF files:
 - pdfInfo - displays properties and form field content of a PDF file.
 - pdfCat - joins two or more PDF files into a new file 
